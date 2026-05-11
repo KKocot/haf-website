@@ -1,0 +1,437 @@
+/* ==========================================================================
+   HAF Global Styles
+   Import order: tailwind -> tokens -> global base
+   ========================================================================== */
+
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./bridge-tokens.css";
+
+/* --------------------------------------------------------------------------
+   Fonts — @fontsource-variable (local woff2, no external CDN)
+   Install via: pnpm add @fontsource-variable/inter @fontsource-variable/jetbrains-mono
+   -------------------------------------------------------------------------- */
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* --------------------------------------------------------------------------
+   Tailwind v4 — @theme inline (maps tokens to TW utilities)
+   -------------------------------------------------------------------------- */
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-subtle: var(--color-bg-subtle);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-surface-hover: var(--color-bg-surface-hover);
+  --color-bg-elevated: var(--color-bg-elevated);
+  --color-bg-code: var(--color-bg-code);
+
+  --color-primary: var(--color-primary);
+  --color-primary-bright: var(--color-primary-bright);
+  --color-primary-dim: var(--color-primary-dim);
+  --color-primary-muted: var(--color-primary-muted);
+
+  --color-accent-green: var(--color-accent-green);
+  --color-accent-amber: var(--color-accent-amber);
+  --color-accent-violet: var(--color-accent-violet);
+  --color-accent-rose: var(--color-accent-rose);
+  --color-hive: var(--color-hive);
+
+  --color-text: var(--color-text);
+  --color-text-bright: var(--color-text-bright);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-subtle: var(--color-text-subtle);
+  --color-text-very-subtle: var(--color-text-very-subtle);
+  --color-text-on-primary: var(--color-text-on-primary);
+
+  --color-border: var(--color-border);
+  --color-border-bright: var(--color-border-bright);
+  --color-border-primary: var(--color-border-primary);
+
+  --color-link: var(--color-link);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-glow-sm: var(--shadow-glow-sm);
+  --shadow-glow-md: var(--shadow-glow-md);
+  --shadow-glow-lg: var(--shadow-glow-lg);
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/* --------------------------------------------------------------------------
+   Base — HTML & Body
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  tab-size: 4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* --------------------------------------------------------------------------
+   Typography — Headings
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-bright);
+}
+
+h1 {
+  font-size: var(--text-6xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: var(--text-7xl);
+  }
+  h2 {
+    font-size: var(--text-5xl);
+  }
+  h3 {
+    font-size: var(--text-3xl);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Typography — Links
+   -------------------------------------------------------------------------- */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-bright);
+}
+
+/* --------------------------------------------------------------------------
+   Typography — Code
+   -------------------------------------------------------------------------- */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+code {
+  padding: 0.125em 0.375em;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary-bright);
+}
+
+pre code {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: inherit;
+}
+
+pre {
+  margin: 0;
+  padding: var(--space-6);
+  overflow-x: auto;
+  background-color: var(--color-bg-code);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   Selection
+   -------------------------------------------------------------------------- */
+::selection {
+  background-color: rgba(255, 98, 7, 0.3);
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------
+   Focus — visible outline
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring);
+  border-radius: var(--radius-md);
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbar — thin, dark
+   -------------------------------------------------------------------------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-subtle) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-subtle);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Images & Media
+   -------------------------------------------------------------------------- */
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Utility — .container
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-inline: var(--container-gutter-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utility — .section-padding
+   -------------------------------------------------------------------------- */
+.section-padding {
+  padding-block: var(--section-y);
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-block: var(--section-y-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utility — .gradient-text
+   -------------------------------------------------------------------------- */
+.gradient-text {
+  background-image: var(--gradient-text);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Utility — .sr-only (screen reader only)
+   -------------------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Skip link (a11y)
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-modal);
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-md);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   Utility — .gradient-btn (orange CTA button)
+   -------------------------------------------------------------------------- */
+.gradient-btn {
+  background: var(--gradient-btn-orange);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.2s ease-out;
+}
+
+.gradient-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  color: white;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal — CSS @starting-style based
+   Progressive enhancement: works in Chrome 117+, Firefox 129+, Safari 17.5+
+   -------------------------------------------------------------------------- */
+.reveal {
+  transition:
+    opacity var(--transition-slow),
+    transform var(--transition-slow);
+}
+
+@starting-style {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @starting-style {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Bridge Gate — section divider (subtle arch with glow)
+   -------------------------------------------------------------------------- */
+.bridge-gate {
+  display: block;
+  position: relative;
+  height: var(--space-2);
+  overflow: visible;
+}
+
+.bridge-gate::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: min(65%, 28rem);
+  height: 3px;
+  background: var(--bridge-gate-color);
+  border-radius: var(--radius-full);
+  box-shadow: var(--bridge-gate-glow);
+  transform: scaleX(0);
+  opacity: 0;
+  transition:
+    transform var(--bridge-duration-gate-reveal) var(--bridge-ease-gate),
+    opacity var(--bridge-duration-gate-reveal) var(--bridge-ease-gate);
+}
+
+.bridge-gate--visible::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+@supports (animation-timeline: view()) {
+  .bridge-gate::after {
+    animation: gate-reveal var(--bridge-duration-gate-reveal)
+      var(--bridge-ease-gate) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 80%;
+    transition: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .bridge-gate::after {
+    width: min(50%, 12rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bridge-gate::after {
+    transform: scaleX(1);
+    opacity: 1;
+    transition: none;
+    animation: none;
+  }
+}

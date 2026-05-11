@@ -1,0 +1,265 @@
+/* ==========================================================================
+   HAF Design Tokens
+   Source of truth for the entire design system.
+   Palette: accretion.framer.ai aesthetic (near-black + warm orange)
+   ========================================================================== */
+
+:root {
+  /* --------------------------------------------------------------------------
+     Colors — Backgrounds (near-black, pure dark, NO blue tint)
+     -------------------------------------------------------------------------- */
+  --color-bg: #0f0f0f;
+  --color-bg-subtle: #171717;
+  --color-bg-surface: #262626;
+  --color-bg-surface-hover: #2e2e2e;
+  --color-bg-elevated: #252525;
+  --color-bg-code: #0a0a0a;
+  --color-bg-card: #1c1c1c;
+  --color-bg-darkest: #0a0a0a;
+  --color-border-card: rgba(255, 255, 255, 0.08);
+  --color-border-card-hover: rgba(255, 98, 7, 0.4);
+
+  /* --------------------------------------------------------------------------
+     Colors — Primary (Warm Orange)
+     -------------------------------------------------------------------------- */
+  --color-primary: #ff6207;
+  --color-primary-bright: #ff852f;
+  --color-primary-dim: #ce3000;
+  --color-primary-muted: #7a3000;
+  --color-primary-ghost: rgba(255, 98, 7, 0.08);
+  --color-primary-glow: rgba(255, 98, 7, 0.15);
+
+  /* --------------------------------------------------------------------------
+     Colors — Accents
+     -------------------------------------------------------------------------- */
+  --color-accent-green: #22c55e;
+  --color-accent-amber: #fbbf24;
+  --color-accent-violet: #a78bfa;
+  --color-accent-rose: #fb7185;
+  --color-hive: #e31337;
+
+  /* --------------------------------------------------------------------------
+     Colors — Text (pure neutrals, NO slate/blue tint)
+     -------------------------------------------------------------------------- */
+  --color-text: #e5e5e5;
+  --color-text-bright: #ffffff;
+  --color-text-muted: #a1a1a1;
+  --color-text-subtle: #737373;
+  --color-text-very-subtle: #525252;
+  --color-text-on-primary: #ffffff;
+
+  /* --------------------------------------------------------------------------
+     Colors — Borders (white-alpha, no blue tint)
+     -------------------------------------------------------------------------- */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-bright: rgba(255, 255, 255, 0.2);
+  --color-border-primary: rgba(255, 98, 7, 0.3);
+
+  /* --------------------------------------------------------------------------
+     Colors — Links
+     -------------------------------------------------------------------------- */
+  --color-link: #0099ff;
+
+  /* --------------------------------------------------------------------------
+     Colors — Status/Tag (colored tint backgrounds)
+     -------------------------------------------------------------------------- */
+  --color-tag-green-bg: rgba(34, 197, 94, 0.1);
+  --color-tag-green-text: #16a34a;
+  --color-tag-pink-bg: rgba(236, 72, 153, 0.1);
+  --color-tag-pink-text: #db2777;
+  --color-tag-orange-bg: rgba(226, 107, 8, 0.1);
+  --color-tag-orange-text: #e26b08;
+
+  /* --------------------------------------------------------------------------
+     Colors — Hero (Dark — "The Bridge" theme)
+     -------------------------------------------------------------------------- */
+  --color-hero-bg: #0a0a0a;
+  --color-hero-text: #ffffff;
+  --color-hero-text-muted: #a1a1a1;
+  --color-hero-badge-bg: var(--color-bg-surface);
+  --color-hero-badge-text: var(--color-text);
+  --color-hero-peach: rgba(255, 98, 7, 0.08);
+
+  /* --------------------------------------------------------------------------
+     Gradients (orange-based)
+     -------------------------------------------------------------------------- */
+  --gradient-text: linear-gradient(135deg, #ff6207, #ff852f, #fbbf24);
+  --gradient-btn-orange: linear-gradient(
+    180deg,
+    rgb(255, 133, 47) 0%,
+    rgb(206, 48, 0) 100%
+  );
+  --gradient-hero-sun: radial-gradient(
+    50% 40% at 50% 100%,
+    rgba(255, 98, 7, 0.12),
+    rgba(255, 98, 7, 0.04) 50%,
+    transparent 100%
+  );
+  --gradient-hero-bg: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(255, 98, 7, 0.12),
+    transparent
+  );
+  --gradient-card: linear-gradient(180deg, #262626 0%, #0f0f0f 100%);
+  --gradient-card-glow: radial-gradient(
+    ellipse at center,
+    rgba(255, 98, 7, 0.06),
+    transparent 70%
+  );
+  --gradient-section-fade: linear-gradient(
+    180deg,
+    #171717 0%,
+    #0f0f0f 31%
+  );
+  --gradient-orange-glow: radial-gradient(
+    100% 100% at 50% 100%,
+    rgba(255, 98, 7, 0.15),
+    rgba(255, 98, 7, 0) 100%
+  );
+  --gradient-section-glow: radial-gradient(
+    ellipse 60% 40% at 50% 100%,
+    rgba(255, 98, 7, 0.08),
+    transparent
+  );
+
+  /* --------------------------------------------------------------------------
+     Typography — Font Families
+     -------------------------------------------------------------------------- */
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, -apple-system,
+    sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
+    "Cascadia Code", "Fira Code", monospace;
+  --font-display: var(--font-sans);
+
+  /* --------------------------------------------------------------------------
+     Typography — Font Sizes
+     -------------------------------------------------------------------------- */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+
+  /* --------------------------------------------------------------------------
+     Typography — Font Weights
+     -------------------------------------------------------------------------- */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* --------------------------------------------------------------------------
+     Typography — Line Heights
+     -------------------------------------------------------------------------- */
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  /* --------------------------------------------------------------------------
+     Typography — Letter Spacing
+     -------------------------------------------------------------------------- */
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.05em;
+  --tracking-mono: -0.02em;
+
+  /* --------------------------------------------------------------------------
+     Spacing Scale (8px base grid)
+     -------------------------------------------------------------------------- */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* --------------------------------------------------------------------------
+     Layout
+     -------------------------------------------------------------------------- */
+  --container-max: 1200px;
+  --container-gutter: 1.5rem;
+  --container-gutter-lg: 2rem;
+  --section-y: 6rem;
+  --section-y-lg: 10rem;
+
+  /* --------------------------------------------------------------------------
+     Border Radius (accretion: 16px most common, 8px smaller)
+     -------------------------------------------------------------------------- */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* --------------------------------------------------------------------------
+     Shadows (accretion-style layered subtle)
+     -------------------------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0px 0px 1px 0px rgba(0, 0, 0, 0.05),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.04),
+    0px 3px 2px 0px rgba(0, 0, 0, 0.03),
+    0px 5px 2px 0px rgba(0, 0, 0, 0.01),
+    0px 8px 2px 0px rgba(0, 0, 0, 0);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+    0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5),
+    0 8px 10px -6px rgba(0, 0, 0, 0.4);
+
+  /* Glow shadows (orange tint) */
+  --shadow-glow-sm: 0 0 15px rgba(255, 98, 7, 0.1);
+  --shadow-glow-md: 0 0 30px rgba(255, 98, 7, 0.12),
+    0 0 60px rgba(255, 98, 7, 0.06);
+  --shadow-glow-lg: 0 0 40px rgba(255, 98, 7, 0.15),
+    0 0 80px rgba(255, 98, 7, 0.08);
+
+  /* Focus */
+  --shadow-focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-primary);
+
+  /* --------------------------------------------------------------------------
+     Transitions
+     -------------------------------------------------------------------------- */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 250ms ease-out;
+  --transition-slow: 400ms ease-out;
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* --------------------------------------------------------------------------
+     Z-index Scale
+     -------------------------------------------------------------------------- */
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+}
+
+/* ==========================================================================
+   Reduced Motion — global override
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0.01ms ease-out;
+    --transition-base: 0.01ms ease-out;
+    --transition-slow: 0.01ms ease-out;
+    --transition-spring: 0.01ms ease-out;
+  }
+}

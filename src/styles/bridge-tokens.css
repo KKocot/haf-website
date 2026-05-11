@@ -1,0 +1,785 @@
+/* ==========================================================================
+   HAF "The Bridge" Design Tokens & Motion Spec
+   ==========================================================================
+   DESIGN BRIEF for frontend-developer
+
+   Site Type: MARKETING (wizytowka open-source middleware)
+   Motyw: "The Bridge" — HAF jako most miedzy chaotycznym blockchain
+   a uporzadkowanym SQL. Wizualnie: lewa strona = chaos, prawa = porzadek,
+   srodek = pomaranczowy korytarz mostu.
+
+   IMPORT: dodaj do global.css po @import "./tokens.css":
+     @import "./bridge-tokens.css";
+
+   ZASADA: rozszerzamy tokens.css, NIE nadpisujemy. Nowe custom properties
+   uzywaja prefixu --bridge-* aby uniknac kolizji.
+   ========================================================================== */
+
+:root {
+  /* --------------------------------------------------------------------------
+     1. BRIDGE COLOR TOKENS
+     Wszystkie kolory sa derywatami istniejacej palety:
+     - #ff6207 (primary orange) i jego warianty
+     - #0f0f0f (bg) i szare
+     - ZERO nowych hue
+     -------------------------------------------------------------------------- */
+
+  /* --- Bridge glow — pomaranczowy blask mostu/portalu --- */
+  --bridge-glow: rgba(255, 98, 7, 0.25);
+  --bridge-glow-intense: rgba(255, 98, 7, 0.45);
+  --bridge-glow-subtle: rgba(255, 98, 7, 0.10);
+
+  /* --- Blockchain side — ciemniejsze, bardziej surowe tlo --- */
+  --blockchain-bg: #080808;
+  --blockchain-bg-surface: #111111;
+  --blockchain-noise-opacity: 0.06;
+  --blockchain-accent: rgba(255, 98, 7, 0.08);
+
+  /* --- SQL side — czystsze, troche jasniejsze tlo --- */
+  --sql-bg: #141414;
+  --sql-bg-surface: #1a1a1a;
+  --sql-grid-opacity: 0.04;
+  --sql-accent: rgba(255, 255, 255, 0.04);
+
+  /* --- Bridge corridor — gradient pomaranczowy korytarz --- */
+  --bridge-corridor: linear-gradient(
+    180deg,
+    rgba(255, 98, 7, 0.02) 0%,
+    rgba(255, 98, 7, 0.12) 40%,
+    rgba(255, 98, 7, 0.12) 60%,
+    rgba(255, 98, 7, 0.02) 100%
+  );
+  --bridge-corridor-border: rgba(255, 98, 7, 0.20);
+
+  /* --- Data particles — male elementy lecace przez bridge --- */
+  --particle-color: var(--color-primary-bright);
+  --particle-size: 4px;
+  --particle-glow: 0 0 6px rgba(255, 133, 47, 0.6);
+  --particle-trail: rgba(255, 133, 47, 0.15);
+
+  /* --- Section divider gates — bramy miedzy sekcjami --- */
+  --bridge-gate-color: rgba(255, 98, 7, 0.15);
+  --bridge-gate-border: rgba(255, 98, 7, 0.25);
+  --bridge-gate-glow: 0 0 30px rgba(255, 98, 7, 0.10),
+    0 0 60px rgba(255, 98, 7, 0.05);
+
+  /* --------------------------------------------------------------------------
+     1b. HERO DARK OVERRIDE TOKENS
+     Obecny Hero uzywa jasnego tla (--color-hero-bg: #f8f6f1).
+     "The Bridge" Hero jest DARK — ponizsze tokeny nadpisuja swiatlo.
+
+     INSTRUKCJE DLA FRONTEND-DEVELOPERA:
+
+     Istniejace tokeny do ZASTAPIENIA w kontekscie Hero:
+       --color-hero-bg: #f8f6f1         -> --bridge-hero-bg
+       --color-hero-text: #0a0a0a       -> --bridge-hero-text
+       --color-hero-text-muted: #525252  -> --bridge-hero-text-muted
+       --color-hero-badge-bg: #171717   -> --bridge-hero-badge-bg (bez zmian)
+       --color-hero-badge-text: #f5f5f5 -> --bridge-hero-badge-text (bez zmian)
+       --color-hero-peach: #f7e5c8      -> USUNAC (nieuzywane w dark)
+
+     NIE modyfikuj oryginalnych --color-hero-* w tokens.css.
+     Zamiast tego w Hero.astro zamien referencje na --bridge-hero-*.
+
+     Wplyw na Nav (pre-scroll):
+       Obecna Nav zaklada jasne tlo Hero -> ciemne linki.
+       Po zmianie na dark Hero, Nav linki musza byc jasne od poczatku.
+       Rozwiazanie: usun logike "nav-light-mode" / jasnych linkow pre-scroll,
+       Nav zawsze uzywa --color-text / --color-text-bright.
+       Scroll-triggered background-color Nav (--color-bg z opacity) dziala
+       bez zmian, bo tlo juz jest ciemne.
+     -------------------------------------------------------------------------- */
+  --bridge-hero-bg: #0a0a0a;
+  --bridge-hero-text: var(--color-text-bright);
+  --bridge-hero-text-muted: var(--color-text-muted);
+  --bridge-hero-badge-bg: var(--color-bg-surface);
+  --bridge-hero-badge-text: var(--color-text);
+
+  /* Hero background gradient — ciemne z subtlenym pomaranczowym glow od srodka */
+  --bridge-hero-gradient: radial-gradient(
+    ellipse 50% 60% at 50% 50%,
+    rgba(255, 98, 7, 0.06),
+    transparent 70%
+  );
+
+  /* --------------------------------------------------------------------------
+     1c. BRIDGE GRADIENTS
+     -------------------------------------------------------------------------- */
+
+  /* Gradient dla tla hero — split lewa/prawa strona */
+  --bridge-split-left: linear-gradient(
+    90deg,
+    var(--blockchain-bg) 0%,
+    rgba(8, 8, 8, 0) 100%
+  );
+  --bridge-split-right: linear-gradient(
+    90deg,
+    rgba(20, 20, 20, 0) 0%,
+    var(--sql-bg) 100%
+  );
+
+  /* Gradient section transition — ciemny do wlasciwego bg */
+  --bridge-section-transition: linear-gradient(
+    180deg,
+    var(--bridge-hero-bg) 0%,
+    var(--color-bg) 100%
+  );
+
+  /* --------------------------------------------------------------------------
+     2. MOTION TIMING TOKENS
+     Blockchain = chaotyczny, szybki, nieregularny (2-4s)
+     SQL = spokojny, regularny, przewidywalny (6-8s)
+     Bridge = medium, plynny (4-5s)
+     -------------------------------------------------------------------------- */
+  --bridge-duration-blockchain-fast: 2s;
+  --bridge-duration-blockchain-mid: 3s;
+  --bridge-duration-blockchain-slow: 4s;
+  --bridge-duration-bridge: 4.5s;
+  --bridge-duration-bridge-glow: 5s;
+  --bridge-duration-sql: 7s;
+  --bridge-duration-sql-slow: 8s;
+  --bridge-duration-gate-reveal: 600ms;
+  --bridge-duration-particle: 3s;
+
+  /* Easing */
+  --bridge-ease-chaos: cubic-bezier(0.2, 0.8, 0.3, 1.2);
+  --bridge-ease-steady: cubic-bezier(0.4, 0, 0.2, 1);
+  --bridge-ease-gate: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   3. @KEYFRAMES — Motion Spec
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   particle-flow — Data particle lecacy L->R przez bridge corridor.
+   Uzycie: .bridge-particle { animation: particle-flow var(--bridge-duration-particle) linear infinite; }
+   Element powinien byc position: absolute wewnatrz overflow:hidden .bridge-corridor.
+   Particle fade-in na wejsciu (0-10%), pelna widocznosc w srodku, fade-out na wyjsciu (90-100%).
+   -------------------------------------------------------------------------- */
+@keyframes particle-flow {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100cqw + 20px));
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Fallback particle-flow dla przegladarek bez container query units.
+   Uzyj translateX z duzym pixelowym przesunieciem.
+   -------------------------------------------------------------------------- */
+@supports not (width: 1cqw) {
+  @keyframes particle-flow {
+    0% {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(1200px);
+      opacity: 0;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   particle-flow-vertical — Data particle lecacy T->B na mobile.
+   Analogiczny do particle-flow ale uzywa translateY zamiast translateX.
+   -------------------------------------------------------------------------- */
+@keyframes particle-flow-vertical {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(800px);
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   blockchain-pulse — Chaotyczny, szybki pulse dla strony blockchain.
+   Uzycie: .bridge-world-blockchain::before { animation: blockchain-pulse var(--bridge-duration-blockchain-fast) ease-in-out infinite; }
+   Dwa nieproporcjonalne keyframe-y = wrazenie nieregularnosci.
+   -------------------------------------------------------------------------- */
+@keyframes blockchain-pulse {
+  0% {
+    opacity: 0.03;
+    transform: scale(1);
+  }
+  23% {
+    opacity: 0.07;
+    transform: scale(1.01);
+  }
+  41% {
+    opacity: 0.02;
+    transform: scale(0.99);
+  }
+  67% {
+    opacity: 0.08;
+    transform: scale(1.02);
+  }
+  85% {
+    opacity: 0.03;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.03;
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   sql-steady — Spokojny, systematyczny ruch dla strony SQL.
+   Uzycie: .bridge-world-sql::before { animation: sql-steady var(--bridge-duration-sql) ease-in-out infinite; }
+   Rownomierny, sinusoidalny oddech — porownaj z chaosem blockchain-pulse.
+   -------------------------------------------------------------------------- */
+@keyframes sql-steady {
+  0%,
+  100% {
+    opacity: 0.03;
+  }
+  50% {
+    opacity: 0.06;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   bridge-glow-pulse — Pulsowanie pomaranczowego glow mostu.
+   Uzycie: .bridge-corridor::after { animation: bridge-glow-pulse var(--bridge-duration-bridge-glow) ease-in-out infinite; }
+   Pseudo-element z radial-gradient pomaranczowym.
+   -------------------------------------------------------------------------- */
+@keyframes bridge-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    box-shadow: 0 0 20px rgba(255, 98, 7, 0.08);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 40px rgba(255, 98, 7, 0.15),
+      0 0 80px rgba(255, 98, 7, 0.05);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   gate-reveal — Section divider (brama) pojawiajacy sie przy scroll.
+   Uzycie: element z .bridge-gate ktory dostaje klase .bridge-gate--visible
+   przez IntersectionObserver (threshold 0.3).
+   Alternatywa CSS-only: animation-timeline: view() + animation-range.
+
+   UWAGA: gate-reveal uzywa scaleX — brama otwiera sie od srodka na boki.
+   -------------------------------------------------------------------------- */
+@keyframes gate-reveal {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scaleX(1.02);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Dodatkowe animacje pomocnicze
+   -------------------------------------------------------------------------- */
+
+/* node-float — ulepszony float dla blockchain nodes (bardziej chaotyczny) */
+@keyframes bridge-node-float {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(3px, -8px);
+  }
+  50% {
+    transform: translate(-2px, -4px);
+  }
+  75% {
+    transform: translate(5px, -10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* sql-cursor-blink — systematyczny kursor SQL (pure CSS) */
+@keyframes bridge-sql-cursor {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   4. LAYOUT SPEC (CSS class skeletons + komentarze)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   HERO LAYOUT — "The Bridge" Split
+
+   Desktop (>=1024px):
+     ┌──────────────────────────────────────────────────┐
+     │  BLOCKCHAIN (45%)  │ BRIDGE (10%) │  SQL (45%)   │
+     │  chaotyczne tlo    │  glow portal │  czyste tlo  │
+     │  floating hexagons │  particles   │  grid lines  │
+     │  noisy texture     │  L→R flow    │  neat rows   │
+     │                    │              │              │
+     │  ┌─────────────────┴──────────────┴────────────┐ │
+     │  │           CONTENT OVERLAY (centered)        │ │
+     │  │  Badge + H1 + Subtitle + CTA + Terminal     │ │
+     │  └─────────────────────────────────────────────┘ │
+     └──────────────────────────────────────────────────┘
+
+   Content overlay jest wycentrowany nad split background.
+   Split jest TYLKO wizualny (background layers), nie wplywa na content flow.
+
+   Mobile (<1024px):
+     ┌─────────────────┐
+     │  BLOCKCHAIN TOP  │  (height: 30vh, visual bg only)
+     ├─────────────────┤
+     │  BRIDGE BAR      │  (height: 4px-8px, horizontal glow bar)
+     ├─────────────────┤
+     │  SQL BOTTOM      │  (height: 30vh, visual bg only)
+     │                  │
+     │  CONTENT         │  (full-width, stacked column)
+     │  (overlaid)      │
+     └─────────────────┘
+
+   Na mobile split jest subtelniejszy — trzy strefy wizualne w tle,
+   content jest stacked normalnie.
+   -------------------------------------------------------------------------- */
+
+.bridge-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-block: calc(4rem + var(--space-20)) var(--space-16);
+  background-color: var(--bridge-hero-bg);
+}
+
+@media (min-width: 1024px) {
+  .bridge-hero {
+    padding-block: calc(4rem + var(--space-24)) var(--space-20);
+  }
+}
+
+/* --- Hero split background layer (za contentem) --- */
+.bridge-hero__split {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Mobile: vertical stack */
+.bridge-hero__split-blockchain,
+.bridge-hero__split-sql {
+  flex: 1;
+}
+
+.bridge-hero__split-bridge {
+  width: 4px;
+  flex-shrink: 0;
+}
+
+/* Desktop: horizontal split */
+@media (min-width: 1024px) {
+  .bridge-hero__split-blockchain {
+    flex: 0 0 45%;
+  }
+  .bridge-hero__split-bridge {
+    flex: 0 0 10%;
+    width: auto;
+  }
+  .bridge-hero__split-sql {
+    flex: 0 0 45%;
+  }
+}
+
+/* --- Hero content overlay (nad split) --- */
+.bridge-hero__content-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   ARCHITECTURE LAYOUT — Horizontal bridge corridor
+
+   Desktop (>=1024px):
+     ┌──────────────────────────────────────────────────┐
+     │  hived ──→ serializer ──→ PostgreSQL ──→ HAF ──→ Apps │
+     │           ╔══════════════════════════╗            │
+     │           ║    BRIDGE CORRIDOR       ║            │
+     │           ║    particles L→R         ║            │
+     │           ╚══════════════════════════╝            │
+     └──────────────────────────────────────────────────┘
+
+   Nodes sa przystankami NA korytarzu — nie floating, ale zakotwiczone
+   na linii mostu. Strzalki zamienione na particles / animated dashes.
+
+   Mobile (<768px): vertical corridor (top-down), nodes stacked.
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   FEATURES LAYOUT — "Three Pillars"
+
+   ┌──────────┐  ┌──────────┐  ┌──────────┐
+   │▔▔▔▔▔▔▔▔▔▔│  │▔▔▔▔▔▔▔▔▔▔│  │▔▔▔▔▔▔▔▔▔▔│  <- border-top: 3px orange
+   │          │  │          │  │          │
+   │  Pillar  │  │  Pillar  │  │  Pillar  │     taller niz typowa karta
+   │   One    │  │   Two    │  │  Three   │     (min-height: 280px)
+   │          │  │          │  │          │
+   │          │  │          │  │          │
+   └──────────┘  └──────────┘  └──────────┘
+
+   3 kolumny na desktop (1fr 1fr 1fr), 1 kolumna na mobile.
+   Accent: border-top 3px solid var(--color-primary), reszta border subtelny.
+   Min-height 280px desktop = wrazenie "wysokosci" filaru.
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   SECTION DIVIDERS — Bridge Gates
+
+   Kazda glowna sekcja (Architecture, Features, Getting Started, etc.)
+   uzywa ::after pseudo-elementu jako "bramy":
+
+   ────────╱    ╲────────    <-- arch/gate shape
+                              subtle orange glow beneath
+
+   Implementacja:
+   - ::after na .bridge-gate z clip-path arch shape
+   - width: 120px, height: 40px, centered
+   - background: var(--bridge-gate-color)
+   - box-shadow: var(--bridge-gate-glow)
+   - animation: gate-reveal przy scroll-in (IntersectionObserver)
+   -------------------------------------------------------------------------- */
+
+/* ==========================================================================
+   5. CSS CLASS SKELETONS — Wizualny jezyk "The Bridge"
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   .bridge-world-blockchain — Strona chaosu
+
+   Efekty:
+   - Tlo: --blockchain-bg (#080808), ciemniejsze od glownego
+   - Noise/grain texture: pseudo-element ::before z SVG noise filter
+     (filter: url(#noise) lub background-image z tiny noise PNG <=2KB)
+   - Hexagon hints: pseudo-element ::after z clip-path polygon hexagonow
+     w bardzo niskim opacity (0.03-0.05)
+   - Animacja: blockchain-pulse na ::before (szybka, nieregularna)
+   -------------------------------------------------------------------------- */
+.bridge-world-blockchain {
+  position: relative;
+  background-color: var(--blockchain-bg);
+  overflow: hidden;
+}
+
+/* Noise/grain texture via CSS */
+.bridge-world-blockchain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /*
+   * Noise texture — uzyj jednej z opcji:
+   * A) Inline SVG filter (najlzejsze, zero HTTP request):
+   *    background: url("data:image/svg+xml,...") — tiny noise SVG
+   * B) CSS gradient noise approximation (ponizej):
+   */
+  background-image: repeating-conic-gradient(
+    var(--blockchain-accent) 0% 25%,
+    transparent 0% 50%
+  );
+  background-size: 4px 4px;
+  opacity: var(--blockchain-noise-opacity);
+  animation: blockchain-pulse var(--bridge-duration-blockchain-fast) ease-in-out
+    infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --------------------------------------------------------------------------
+   .bridge-world-sql — Strona porzadku
+
+   Efekty:
+   - Tlo: --sql-bg (#141414), troche jasniejsze, czystsze
+   - Subtle grid: pseudo-element ::before z linear-gradient lines
+     (1px lines co 40px, bardzo niska opacity 0.04)
+   - Brak grain/noise — czysto, spokojnie
+   - Animacja: sql-steady na ::before (wolna, rownomierna)
+   -------------------------------------------------------------------------- */
+.bridge-world-sql {
+  position: relative;
+  background-color: var(--sql-bg);
+  overflow: hidden;
+}
+
+/* Clean grid lines — porzadek */
+.bridge-world-sql::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, var(--sql-grid-opacity)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, var(--sql-grid-opacity)) 1px,
+      transparent 1px
+    );
+  background-size: 40px 40px;
+  animation: sql-steady var(--bridge-duration-sql) ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --------------------------------------------------------------------------
+   .bridge-corridor — Pomaranczowy korytarz mostu
+
+   Efekty:
+   - Background: --bridge-corridor gradient (vertical orange glow)
+   - Border L/R: 1px solid --bridge-corridor-border
+   - Glow: pseudo-element ::after z radial-gradient orange
+   - Overflow hidden: particles nie wychodza poza korytarz
+   - Container type: inline-size (dla particle-flow cqw units)
+   -------------------------------------------------------------------------- */
+.bridge-corridor {
+  position: relative;
+  background: var(--bridge-corridor);
+  border-inline: 1px solid var(--bridge-corridor-border);
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+/* Orange glow layer */
+.bridge-corridor::after {
+  content: "";
+  position: absolute;
+  inset: -20px -10px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 98, 7, 0.08),
+    transparent 70%
+  );
+  animation: bridge-glow-pulse var(--bridge-duration-bridge-glow) ease-in-out
+    infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --------------------------------------------------------------------------
+   .bridge-particle — Animowany data particle lecacy przez korytarz
+
+   Uzycie: wiele instancji wewnatrz .bridge-corridor, kazda z innym
+   animation-delay (stagger 0.5-1s) i top position (rozne "tory").
+
+   Implementacja (HTML, aria-hidden="true"):
+     <div class="bridge-corridor">
+       <div class="bridge-particle" style="top: 20%; animation-delay: 0s;"></div>
+       <div class="bridge-particle" style="top: 50%; animation-delay: 0.7s;"></div>
+       <div class="bridge-particle" style="top: 80%; animation-delay: 1.4s;"></div>
+     </div>
+
+   Kazdy particle jest maly (4x4px), okragly, pomaranczowy z glow.
+   -------------------------------------------------------------------------- */
+.bridge-particle {
+  position: absolute;
+  left: 0;
+  width: var(--particle-size);
+  height: var(--particle-size);
+  border-radius: var(--radius-full);
+  background-color: var(--particle-color);
+  box-shadow: var(--particle-glow);
+  animation: particle-flow var(--bridge-duration-particle) linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Trail effect — pseudo-element za particle */
+.bridge-particle::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--particle-trail));
+  border-radius: var(--radius-full);
+}
+
+/* --------------------------------------------------------------------------
+   .bridge-gate — Section divider (brama)
+   UWAGA: Implementacja przeniesiona do global.css (prostsza wersja, subtelna
+   linia zamiast arch shape). Ponizej zostawiam jedynie komentarz referencyjny.
+   Nie duplikujemy reguł — global.css jest single source of truth dla .bridge-gate.
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   .bridge-pillar — Feature card w stylu filaru mostu
+
+   Efekty:
+   - border-top: 3px solid var(--color-primary) — nacisk "podtrzymywania"
+   - min-height: 280px na desktop — wrazenie wysokosci
+   - Reszta border: subtelny --color-border-card
+   - Hover: border-top-color brightness up, subtle glow
+   - Background: --color-bg-card z subtle gradient
+   -------------------------------------------------------------------------- */
+.bridge-pillar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-card);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  transition: border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+@media (min-width: 1024px) {
+  .bridge-pillar {
+    min-height: 280px;
+  }
+}
+
+.bridge-pillar:hover {
+  border-top-color: var(--color-primary-bright);
+  box-shadow: var(--shadow-glow-sm);
+}
+
+/* ==========================================================================
+   6. PREFERS-REDUCED-MOTION — Jedna regula na koncu
+   WSZYSTKIE bridge animacje wylaczone / zredukowane do 0.01ms
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .bridge-world-blockchain::before,
+  .bridge-world-sql::before,
+  .bridge-corridor::after,
+  .bridge-particle,
+  [class*="bridge-diagram__zone"]::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .bridge-particle::after {
+    display: none;
+  }
+
+  .bridge-gate::after {
+    transform: scaleX(1);
+    opacity: 1;
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms !important;
+  }
+
+  /* Wylacz chaotyczny float blockchain nodes */
+  [class*="bridge-node"] {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ==========================================================================
+   7. HANDOFF NOTES — Instrukcje dla frontend-developera
+   ==========================================================================
+
+   PRIORITY: HIGH — Hero redesign jest glowna zmiana wizualna.
+
+   KOLEJNOSC IMPLEMENTACJI:
+   1. Dodaj @import "./bridge-tokens.css" w global.css (po tokens.css)
+   2. Zmodyfikuj Hero.astro:
+      a) Zamien --color-hero-bg na --bridge-hero-bg
+      b) Zamien --color-hero-text na --bridge-hero-text
+      c) Zamien --color-hero-text-muted na --bridge-hero-text-muted
+      d) Dodaj split background layer (3 divy: blockchain, bridge, sql)
+      e) Dodaj particles w bridge corridor (3-5 diwow .bridge-particle)
+      f) Usun ::after sun glow (.haf-hero::after) — zastap bridge-hero-gradient
+      g) Zachowaj stagger entry animation (hero-fade-in) — dziala na dark
+   3. Zmodyfikuj Nav.astro:
+      a) Usun "light mode" logike pre-scroll (jasne tlo Hero juz nie istnieje)
+      b) Nav linki zawsze --color-text / --color-text-bright
+   4. Dodaj .bridge-gate miedzy sekcjami (divider element lub ::after)
+   5. Zmodyfikuj Architecture.astro:
+      a) Zamien static arrows na bridge corridor z particles
+      b) Nodes zakotwiczone na korytarzu
+   6. Zmodyfikuj Features section:
+      a) 3-kolumnowy grid z .bridge-pillar zamiast zwyklych kart
+   7. Testuj prefers-reduced-motion: reduce (DevTools > Rendering)
+
+   PAKIETY — NIE INSTALUJ NOWYCH:
+   - Wszystko CSS-only, zero nowych dependencies
+   - Animacje: CSS @keyframes, ZADNEGO GSAP/framer-motion
+   - Scroll detection: IntersectionObserver (native) lub CSS animation-timeline
+
+   PERFORMANCE BUDGET:
+   - LCP <=2.5s (Hero dark z particles nie powinien wplywac)
+   - CLS <=0.1 (split background jest absolute positioned, zero layout shift)
+   - INP <=200ms (brak interaktywnych elementow w animacjach)
+   - Particles: max 5 elementow, GPU-only (transform + opacity)
+   - Noise texture: CSS-only, zero dodatkowych assetow
+   - Bridge corridor glow: single pseudo-element, nie dodatkowy DOM
+
+   A11Y CHECKLIST:
+   - [x] prefers-reduced-motion: reduce — zdefiniowane w sekcji 6
+   - [ ] Particles musza miec aria-hidden="true"
+   - [ ] Split background musi miec aria-hidden="true"
+   - [ ] Bridge gate musi miec aria-hidden="true" (dekoracyjny)
+   - [ ] Kontrast tekstu na dark hero: bialy na #0a0a0a = 18.4:1 (PASS AAA)
+   - [ ] Kontrast muted tekstu: #a1a1a1 na #0a0a0a = 9.1:1 (PASS AAA)
+   - [ ] Focus ring (--shadow-focus-ring) widoczny na dark bg (OK, uzywa primary)
+   - [ ] Tab order: badge -> h1 (not focusable) -> CTA buttons -> terminal
+   - [ ] Keyboard: wszystkie CTA buttons dostepne przez Tab
+   - [ ] Nav: focus visible na dark bg (border primary, OK)
+
+   BREAKPOINTS (zgodne z obecnymi):
+   - sm: 640px
+   - md: 768px (Architecture diagram horizontal)
+   - lg: 1024px (Hero split horizontal, pillars 3-col)
+   - xl: 1280px
+
+   STACK-SPECIFIC:
+   - Astro 5 — scoped <style> w komponentach
+   - Tailwind v4 — @theme inline juz mapuje tokeny
+   - Dodaj nowe bridge-* tokeny do @theme inline w global.css jesli potrzebne
+     w utility classes (bg-bridge-hero-bg etc.)
+
+   ========================================================================== */
