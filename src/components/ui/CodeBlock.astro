@@ -1,0 +1,107 @@
+---
+interface Props {
+  code: string;
+  lang?: string;
+  filename?: string;
+  class?: string;
+}
+
+const { code, lang, filename, class: className } = Astro.props;
+---
+
+<div class:list={["haf-codeblock", className]}>
+  {
+    filename && (
+      <div class="haf-codeblock__header">
+        <div class="haf-codeblock__dots" aria-hidden="true">
+          <span class="haf-codeblock__dot haf-codeblock__dot--red" />
+          <span class="haf-codeblock__dot haf-codeblock__dot--yellow" />
+          <span class="haf-codeblock__dot haf-codeblock__dot--green" />
+        </div>
+        <span class="haf-codeblock__filename">{filename}</span>
+      </div>
+    )
+  }
+  <pre
+    class:list={["haf-codeblock__pre", { "haf-codeblock__pre--with-header": !!filename }]}
+  ><code class="haf-codeblock__code" data-lang={lang}>{code}</code></pre>
+</div>
+
+<style>
+  .haf-codeblock {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  /* --- Header bar (optional filename) --- */
+
+  .haf-codeblock__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .haf-codeblock__dots {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .haf-codeblock__dot {
+    width: 0.75rem; /* 12px */
+    height: 0.75rem;
+    border-radius: var(--radius-full);
+    opacity: 0.7;
+  }
+
+  .haf-codeblock__dot--red {
+    background-color: #ff5f56;
+  }
+
+  .haf-codeblock__dot--yellow {
+    background-color: #ffbd2e;
+  }
+
+  .haf-codeblock__dot--green {
+    background-color: #27c93f;
+  }
+
+  .haf-codeblock__filename {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+
+  /* --- Pre / Code --- */
+
+  .haf-codeblock__pre {
+    margin: 0;
+    padding: var(--space-6);
+    overflow-x: auto;
+    background-color: var(--color-bg-code);
+    border: none;
+    border-radius: 0;
+    line-height: 1.7;
+  }
+
+  .haf-codeblock__pre--with-header {
+    border-radius: 0;
+  }
+
+  .haf-codeblock__pre:not(.haf-codeblock__pre--with-header) {
+    border-radius: var(--radius-lg);
+  }
+
+  .haf-codeblock__code {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+</style>

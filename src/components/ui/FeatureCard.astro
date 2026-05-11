@@ -1,0 +1,104 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  icon?: string;
+  class?: string;
+}
+
+const { title, description, icon, class: className } = Astro.props;
+---
+
+<article class:list={["haf-feature-card", className]}>
+  {
+    icon && (
+      <div class="haf-feature-card__icon" aria-hidden="true">
+        {/* SAFETY: icon is a static SVG string defined in FeaturesGrid.astro, not user input */}
+        <Fragment set:html={icon} />
+      </div>
+    )
+  }
+  <h3 class="haf-feature-card__title">{title}</h3>
+  <p class="haf-feature-card__description">{description}</p>
+</article>
+
+<style>
+  .haf-feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-card);
+    border-top: 2px solid rgba(255, 98, 7, 0.2);
+    border-radius: var(--radius-xl);
+    transition:
+      border-color var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .haf-feature-card:hover {
+    border-color: var(--color-border-card-hover);
+    box-shadow: inset 0 1px 0 rgba(255, 98, 7, 0.15);
+  }
+
+  /* --- Bridge Pillar variant (global class from bridge-tokens.css) --- */
+
+  .haf-feature-card:global(.bridge-pillar) {
+    padding: var(--space-8);
+    border-top: 3px solid var(--color-primary);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  }
+
+  @media (min-width: 1024px) {
+    .haf-feature-card:global(.bridge-pillar) {
+      min-height: 280px;
+    }
+  }
+
+  .haf-feature-card:global(.bridge-pillar):hover {
+    border-top-color: var(--color-primary-bright);
+    box-shadow: var(--shadow-glow-sm);
+  }
+
+  /* --- Icon --- */
+
+  .haf-feature-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem; /* 32px */
+    height: 2rem;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+  }
+
+  .haf-feature-card__icon :global(svg) {
+    width: 1rem; /* 16px */
+    height: 1rem;
+  }
+
+  /* --- Title --- */
+
+  .haf-feature-card__title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-bright);
+  }
+
+  /* --- Description --- */
+
+  .haf-feature-card__description {
+    margin: 0;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

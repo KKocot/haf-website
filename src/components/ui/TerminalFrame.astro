@@ -1,0 +1,106 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title, class: className } = Astro.props;
+---
+
+<figure class:list={["haf-terminal", className]} role="img" aria-label={title || "Terminal"}>
+  <div class="haf-terminal__header">
+    <div class="haf-terminal__dots" aria-hidden="true">
+      <span class="haf-terminal__dot haf-terminal__dot--red"></span>
+      <span class="haf-terminal__dot haf-terminal__dot--yellow"></span>
+      <span class="haf-terminal__dot haf-terminal__dot--green"></span>
+    </div>
+    {title && <span class="haf-terminal__title">{title}</span>}
+  </div>
+  <div class="haf-terminal__body">
+    <slot />
+  </div>
+</figure>
+
+<style>
+  .haf-terminal {
+    margin: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  /* --- Header (title bar) --- */
+
+  .haf-terminal__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .haf-terminal__dots {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .haf-terminal__dot {
+    width: 0.75rem; /* 12px */
+    height: 0.75rem;
+    border-radius: var(--radius-full);
+    opacity: 0.7;
+  }
+
+  .haf-terminal__dot--red {
+    background-color: #ff5f56;
+  }
+
+  .haf-terminal__dot--yellow {
+    background-color: #ffbd2e;
+  }
+
+  .haf-terminal__dot--green {
+    background-color: #27c93f;
+  }
+
+  .haf-terminal__title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    letter-spacing: var(--tracking-mono);
+  }
+
+  /* --- Body --- */
+
+  .haf-terminal__body {
+    background-color: var(--color-bg-code);
+    padding: var(--space-6);
+    overflow-x: auto;
+  }
+
+  /* Reset nested pre/code styles so CodeBlock or raw content displays cleanly */
+  .haf-terminal__body :global(pre) {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+  }
+
+  .haf-terminal__body :global(.haf-codeblock) {
+    border: none;
+    border-radius: 0;
+  }
+
+  .haf-terminal__body :global(.haf-codeblock__header) {
+    display: none;
+  }
+
+  .haf-terminal__body :global(.haf-codeblock__pre) {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+import Badge from "./Badge.astro";
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  badge?: string;
+  align?: "left" | "center";
+  id?: string;
+  class?: string;
+}
+
+const {
+  title,
+  subtitle,
+  badge,
+  align = "center",
+  id,
+  class: className,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "haf-section-heading",
+    { "haf-section-heading--center": align === "center" },
+    className,
+  ]}
+>
+  {badge && <Badge variant="accent">{badge}</Badge>}
+  <h2 class="haf-section-heading__title" id={id}>{title}</h2>
+  {subtitle && <p class="haf-section-heading__subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .haf-section-heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+
+  .haf-section-heading--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  /* --- Title --- */
+
+  .haf-section-heading__title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-bright);
+  }
+
+  @media (min-width: 1024px) {
+    .haf-section-heading__title {
+      font-size: var(--text-5xl);
+    }
+  }
+
+  /* --- Subtitle --- */
+
+  .haf-section-heading__subtitle {
+    margin: 0;
+    max-width: 52ch;
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+</style>

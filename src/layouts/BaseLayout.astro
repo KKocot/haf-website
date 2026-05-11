@@ -1,0 +1,46 @@
+---
+import SEO from '../components/seo/SEO.astro';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO title={title} description={description} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <slot />
+    <script>
+      document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const anchor = target.closest('a[href^="#"]');
+        if (!anchor) return;
+
+        const href = anchor.getAttribute('href');
+        if (!href || href === '#') return;
+
+        const el = document.querySelector(href);
+        if (!el) return;
+
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Update URL without triggering scroll
+        history.pushState(null, '', href);
+      });
+    </script>
+  </body>
+</html>
