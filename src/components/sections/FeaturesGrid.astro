@@ -1,0 +1,117 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import FeatureCard from "../ui/FeatureCard.astro";
+
+const features = [
+  {
+    title: "Push Model",
+    subtitle: "Data flows to you",
+    pillar: true,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    description:
+      "Data flows directly from hived to PostgreSQL via sql_serializer plugin. No polling, no rate limits, no missed blocks.",
+  },
+  {
+    title: "Automatic Fork Handling",
+    subtitle: "The bridge holds during storms",
+    pillar: true,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
+    description:
+      "HiveForkManager automatically rolls back application data during microforks. Your app stays consistent without any extra code.",
+  },
+  {
+    title: "Multi-App Architecture",
+    subtitle: "One bridge, many travelers",
+    pillar: true,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="9" y="14" width="6" height="6" rx="1"/><path d="M5 8v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/><path d="M12 12v2"/></svg>`,
+    description:
+      "Run multiple applications on a single HAF server. Each app gets its own context while sharing the same blockchain data.",
+  },
+  {
+    title: "SQL Interface",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`,
+    description:
+      "Access blocks, transactions, and operations through standard PostgreSQL queries. Use any language or tool that speaks SQL.",
+  },
+  {
+    title: "Docker Deployment",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12.5c0-.28-.22-.5-.5-.5h-2.08c-.09-.7-.27-1.37-.54-2h1.12c.28 0 .5-.22.5-.5s-.22-.5-.5-.5H18.6a7 7 0 0 0-1.74-2.26l1.28-1.28a.5.5 0 0 0-.7-.7L16.14 6A7 7 0 0 0 12 4.5 7 7 0 0 0 5 11.5c0 3.87 3.13 7 7 7s7-3.13 7-7h2.5c.28 0 .5-.22.5-.5z"/><rect x="7" y="8" width="2" height="2" rx="0.5"/><rect x="11" y="8" width="2" height="2" rx="0.5"/><rect x="15" y="8" width="2" height="2" rx="0.5"/><rect x="7" y="12" width="2" height="2" rx="0.5"/><rect x="11" y="12" width="2" height="2" rx="0.5"/></svg>`,
+    description:
+      "Production-ready Docker Compose setup with pgAdmin and pgHero included. From zero to syncing in minutes.",
+  },
+  {
+    title: "Staged Sync",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+    description:
+      "Intelligent sync modes — massive replay, P2P sync, and live sync — with automatic index management for optimal performance.",
+  },
+];
+---
+
+<section id="features" class="section-padding features-section" aria-labelledby="features-heading">
+  <div class="container">
+    <SectionHeading
+      id="features-heading"
+      badge="Three Pillars of the Bridge"
+      title="Everything you need to build on Hive"
+      subtitle="HAF handles the hard parts of blockchain development so you can focus on your application logic."
+    />
+    <div class="features-grid">
+      {
+        features.map((feature) => (
+          <FeatureCard
+            title={feature.subtitle ? `${feature.title}` : feature.title}
+            icon={feature.icon}
+            description={feature.subtitle ? `${feature.subtitle} — ${feature.description}` : feature.description}
+            class={feature.pillar ? "bridge-pillar" : "features-secondary"}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .features-section {
+    position: relative;
+  }
+
+  .features-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .features-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Secondary features — slightly subdued */
+  .features-grid :global(.features-secondary) {
+    opacity: 0.85;
+  }
+</style>

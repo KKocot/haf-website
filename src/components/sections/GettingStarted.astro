@@ -1,0 +1,229 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import TerminalFrame from "../ui/TerminalFrame.astro";
+import CodeBlock from "../ui/CodeBlock.astro";
+import Button from "../ui/Button.astro";
+import { externalLinks } from "../../config/links";
+
+const steps = [
+  {
+    number: "01",
+    title: "Clone the repository",
+    lang: "bash",
+    code: `git clone https://gitlab.syncad.com/hive/haf_api_node.git
+cd haf_api_node`,
+    terminal: "terminal",
+  },
+  {
+    number: "02",
+    title: "Configure and start",
+    lang: "bash",
+    code: `# Copy example environment
+cp .env.example .env
+
+# Start HAF with Docker Compose
+docker compose up -d`,
+    terminal: "terminal",
+  },
+  {
+    number: "03",
+    title: "Query blockchain data",
+    lang: "sql",
+    code: `-- Connect to PostgreSQL and start querying
+psql -h localhost -U haf_admin -d haf_block_log
+
+-- Check sync progress
+SELECT MAX(num) as latest_block FROM hive.blocks;
+
+-- Query recent transactions
+SELECT * FROM hive.transactions
+ORDER BY block_num DESC LIMIT 10;`,
+    terminal: "psql",
+  },
+];
+---
+
+<section
+  id="getting-started"
+  class="section-padding"
+  aria-labelledby="getting-started-heading"
+>
+  <div class="container">
+    <SectionHeading
+      id="getting-started-heading"
+      badge="Cross the Bridge"
+      title="Cross the bridge in 3 steps"
+      subtitle="Get HAF running locally with Docker Compose."
+    />
+
+    <div class="steps">
+      {
+        steps.map((step, i) => (
+          <div class="step" data-step={step.number}>
+            <div class="step__indicator">
+              <span class="step__number">{step.number}</span>
+              {i < steps.length - 1 && (
+                <div class="step__line" aria-hidden="true" />
+              )}
+            </div>
+            <div class="step__content">
+              <h3 class="step__title">{step.title}</h3>
+              <TerminalFrame title={step.terminal}>
+                <CodeBlock code={step.code} lang={step.lang} />
+              </TerminalFrame>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="steps__cta">
+      <Button
+        variant="gradient"
+        href={externalLinks.docs}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Read the full documentation
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M3 8.5h8.5m0 0L8 5m3.5 3.5L8 12"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  #getting-started {
+    position: relative;
+    background: var(--color-bg-subtle);
+  }
+
+  #getting-started::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+
+  /* --- Individual step --- */
+
+  .step {
+    position: relative;
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .step::before {
+    content: attr(data-step);
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+    font-family: var(--font-mono);
+    font-size: 6rem;
+    font-weight: var(--font-weight-extrabold);
+    color: var(--color-text-bright);
+    opacity: 0.04;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .step::before {
+      left: -1rem;
+    }
+  }
+
+  /* --- Left indicator column --- */
+
+  .step__indicator {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .step__indicator {
+      display: flex;
+    }
+  }
+
+  .step__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-ghost);
+    border: 1px solid var(--color-border-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .step__line {
+    width: 1px;
+    flex: 1;
+    background-color: var(--color-border);
+    margin-block: var(--space-3);
+  }
+
+  /* --- Right content column --- */
+
+  .step__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .step__title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-bright);
+  }
+
+  /* --- CTA --- */
+
+  .steps__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-12);
+  }
+</style>

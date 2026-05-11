@@ -1,0 +1,179 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import Card from "../ui/Card.astro";
+
+const projects = [
+  {
+    name: "Hivemind",
+    description:
+      "Social networking layer for Hive. Indexes posts, comments, votes, and follows for community applications.",
+    link: "https://gitlab.syncad.com/hive/hivemind",
+  },
+  {
+    name: "HAF API Node",
+    description:
+      "Complete deployment solution for HAF with Docker Compose. Includes pgAdmin, pgHero, and monitoring.",
+    link: "https://gitlab.syncad.com/hive/haf_api_node",
+  },
+  {
+    name: "HAfAH",
+    description:
+      "API framework built on HAF providing REST endpoints for blockchain data queries.",
+    link: "https://gitlab.syncad.com/hive/haf_api",
+  },
+  {
+    name: "Balance Tracker",
+    description:
+      "Real-time HIVE and HBD balance tracking with historical data. Tracks all transfer operations.",
+  },
+  {
+    name: "Reputation Tracker",
+    description:
+      "Decentralized reputation scoring system built on HAF.",
+  },
+  {
+    name: "Block Explorer",
+    description:
+      "Blockchain explorer application powered by HAF SQL queries.",
+  },
+];
+---
+
+<section id="ecosystem" class="section-padding ecosystem-section" aria-labelledby="ecosystem-heading">
+  <div class="container">
+    <SectionHeading
+      id="ecosystem-heading"
+      badge="Beyond the Bridge"
+      title="What awaits across the bridge"
+      subtitle="Production apps already crossing the bridge — from raw blockchain to real-world use."
+    />
+
+    <div class="eco-grid">
+      {
+        projects.map((project) => (
+          <Card class="eco-card">
+            <h3 class="eco-card__name">{project.name}</h3>
+            <p class="eco-card__desc">{project.description}</p>
+            {project.link && (
+              <a
+                href={project.link}
+                class="eco-card__link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View repository
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 8.5h8.5m0 0L8 5m3.5 3.5L8 12"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+            )}
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ecosystem-section {
+    position: relative;
+    background: var(--color-bg);
+  }
+
+  .ecosystem-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+  }
+
+  .eco-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .eco-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .eco-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* --- Card overrides --- */
+
+  .eco-card {
+    border-top: 1px solid rgba(255, 98, 7, 0.2);
+  }
+
+  /* --- Card internals --- */
+
+  .eco-card__name {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-bright);
+    margin-bottom: var(--space-3);
+  }
+
+  .eco-card__desc {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  .eco-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-decoration: none;
+    transition:
+      color var(--transition-fast),
+      text-decoration var(--transition-fast);
+  }
+
+  .eco-card__link:hover {
+    color: var(--color-primary-bright);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .eco-card__link svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .eco-card__link:hover svg {
+    transform: translateX(3px);
+  }
+</style>

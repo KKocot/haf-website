@@ -1,0 +1,462 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import CodeBlock from "../ui/CodeBlock.astro";
+
+const points = [
+  {
+    title: "Every block, pushed automatically",
+    description:
+      "The sql_serializer plugin captures every block as it's produced and pushes it directly to PostgreSQL. No cron jobs, no polling intervals.",
+    code: `-- Blocks appear in real-time
+SELECT num, created_at, hash
+FROM hive.blocks
+WHERE num > hive.app_get_irreversible_block();`,
+    filename: "query.sql",
+  },
+  {
+    title: "Fork-safe by default",
+    description:
+      "When the blockchain forks, HAF automatically identifies affected blocks and rolls back your application's state. You write forward-only logic.",
+    code: `-- HAF tracks reversible vs irreversible blocks
+SELECT * FROM hive.transactions
+WHERE block_num BETWEEN
+  hive.app_get_irreversible_block()
+  AND hive.app_get_current_block_num();`,
+    filename: "fork-safe.sql",
+  },
+  {
+    title: "One server, many apps",
+    description:
+      "Multiple applications share a single HAF instance. Each registers its own context and processes blocks independently — no conflicts, no bottlenecks.",
+    code: `-- Register your app context
+SELECT hive.app_create_context(
+  'my_app', 'my_schema'
+);
+-- Start processing from block 1
+SELECT hive.app_context_detach('my_app');`,
+    filename: "multi-app.sql",
+  },
+];
+
+const diagramNodes = [
+  { label: "hived", sublabel: "Blockchain Node", icon: "chain" },
+  { label: "sql_serializer", sublabel: "Plugin", icon: "plug" },
+  { label: "PostgreSQL", sublabel: "Database", icon: "db" },
+  { label: "HAF API", sublabel: "Fork Manager", icon: "api" },
+  { label: "Your Apps", sublabel: "App 1 / App 2 / App 3", icon: "apps" },
+];
+
+const flowLabels = ["blocks", "push", "read", "query"];
+---
+
+<section
+  id="architecture"
+  class="section-padding architecture-section reveal"
+  aria-labelledby="architecture-heading"
+>
+  <div class="container">
+    <SectionHeading
+      id="architecture-heading"
+      badge="How It Works"
+      title="From blockchain to SQL in real-time"
+      subtitle="HAF sits between the Hive node and your applications, transforming raw blockchain data into queryable PostgreSQL tables."
+    />
+
+    <!-- Bridge Corridor Diagram -->
+    <div
+      class="bridge-diagram"
+      role="img"
+      aria-label="Architecture diagram showing data flow: hived sends blocks to sql_serializer, which pushes data to PostgreSQL, read by HAF API, queried by your applications"
+    >
+      <!-- Aesthetic zones (background only) -->
+      <div class="bridge-diagram__zones" aria-hidden="true">
+        <div class="bridge-diagram__zone bridge-diagram__zone--blockchain"></div>
+        <div class="bridge-diagram__zone bridge-diagram__zone--sql"></div>
+      </div>
+
+      <!-- The corridor track -->
+      <div class="bridge-diagram__corridor bridge-corridor">
+        <!-- Data particles -->
+        <div class="bridge-particle" style="top: 20%; animation-delay: 0s;" aria-hidden="true"></div>
+        <div class="bridge-particle" style="top: 45%; animation-delay: 0.6s;" aria-hidden="true"></div>
+        <div class="bridge-particle" style="top: 70%; animation-delay: 1.2s;" aria-hidden="true"></div>
+        <div class="bridge-particle" style="top: 35%; animation-delay: 1.8s;" aria-hidden="true"></div>
+        <div class="bridge-particle" style="top: 60%; animation-delay: 2.4s;" aria-hidden="true"></div>
+
+        <!-- Nodes on the corridor -->
+        <div class="bridge-diagram__nodes">
+          {
+            diagramNodes.map((node, i) => (
+              <>
+                <div class="bridge-diagram__node">
+                  <div class="bridge-diagram__node-icon" aria-hidden="true">
+                    {node.icon === "chain" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    )}
+                    {node.icon === "plug" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V8Z"/></svg>
+                    )}
+                    {node.icon === "db" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                    )}
+                    {node.icon === "api" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    )}
+                    {node.icon === "apps" && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    )}
+                  </div>
+                  <span class="bridge-diagram__node-label">{node.label}</span>
+                  <span class="bridge-diagram__node-sublabel">{node.sublabel}</span>
+                </div>
+                {i < diagramNodes.length - 1 && (
+                  <div class="bridge-diagram__segment" aria-hidden="true">
+                    <span class="bridge-diagram__segment-label">{flowLabels[i]}</span>
+                  </div>
+                )}
+              </>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Points -- Alternating Layout -->
+    <div class="arch-points">
+      {
+        points.map((point, i) => (
+          <div class:list={["arch-point", { "arch-point--reversed": i % 2 !== 0 }]}>
+            <div class="arch-point__text">
+              <h3 class="arch-point__title">{point.title}</h3>
+              <p class="arch-point__description">{point.description}</p>
+            </div>
+            <div class="arch-point__code">
+              <CodeBlock code={point.code} lang="sql" filename={point.filename} />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Section background */
+  .architecture-section {
+    position: relative;
+    background: var(--color-bg-subtle);
+  }
+
+  .architecture-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+  }
+
+  /* Bridge Diagram */
+  .bridge-diagram {
+    position: relative;
+    margin-bottom: var(--space-16);
+    padding: var(--space-8) var(--space-4);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  @media (min-width: 768px) {
+    .bridge-diagram {
+      padding: var(--space-10) var(--space-8);
+    }
+  }
+
+  /* Aesthetic zones */
+  .bridge-diagram__zones {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @media (min-width: 768px) {
+    .bridge-diagram__zones {
+      flex-direction: row;
+    }
+  }
+
+  .bridge-diagram__zone {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bridge-diagram__zone--blockchain {
+    background-color: var(--blockchain-bg);
+  }
+
+  .bridge-diagram__zone--blockchain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-conic-gradient(
+      var(--blockchain-accent) 0% 25%,
+      transparent 0% 50%
+    );
+    background-size: 4px 4px;
+    opacity: var(--blockchain-noise-opacity);
+    animation: blockchain-pulse var(--bridge-duration-blockchain-fast) ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .bridge-diagram__zone--sql {
+    background-color: var(--sql-bg);
+  }
+
+  .bridge-diagram__zone--sql::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, var(--sql-grid-opacity)) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, var(--sql-grid-opacity)) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: sql-steady var(--bridge-duration-sql) ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Bridge Corridor — layout overrides */
+  .bridge-diagram__corridor {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-6) var(--space-3);
+    border-radius: var(--radius-xl);
+  }
+
+  @media (min-width: 768px) {
+    .bridge-diagram__corridor {
+      padding: var(--space-8) var(--space-6);
+      border-inline: 1px solid var(--bridge-corridor-border);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .bridge-diagram__corridor {
+      border-block: 1px solid var(--bridge-corridor-border);
+      border-inline: none;
+    }
+  }
+
+  /* Particles — vertical on mobile */
+  @media (max-width: 767px) {
+    .bridge-diagram__corridor :global(.bridge-particle) {
+      top: auto !important;
+      left: 20%;
+      width: var(--particle-size);
+      height: var(--particle-size);
+      animation-name: particle-flow-vertical;
+    }
+
+    .bridge-diagram__corridor :global(.bridge-particle:nth-child(2)) { left: 45%; }
+    .bridge-diagram__corridor :global(.bridge-particle:nth-child(3)) { left: 70%; }
+    .bridge-diagram__corridor :global(.bridge-particle:nth-child(4)) { left: 35%; }
+    .bridge-diagram__corridor :global(.bridge-particle:nth-child(5)) { left: 60%; }
+  }
+
+  /* Nodes */
+  .bridge-diagram__nodes {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .bridge-diagram__nodes {
+      flex-direction: row;
+      justify-content: center;
+      gap: 0;
+    }
+  }
+
+  .bridge-diagram__node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-xl);
+    min-width: 7.5rem;
+    position: relative;
+    z-index: 2;
+    transition: border-color var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .bridge-diagram__node:hover {
+    border-color: var(--color-border-card-hover);
+    box-shadow: var(--shadow-glow-sm);
+  }
+
+  .bridge-diagram__node-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--color-primary-ghost);
+    border: 1px solid var(--bridge-corridor-border);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+  }
+
+  .bridge-diagram__node-icon :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .bridge-diagram__node-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-bright);
+    white-space: nowrap;
+  }
+
+  .bridge-diagram__node-sublabel {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    white-space: nowrap;
+  }
+
+  /* Segment connector */
+  .bridge-diagram__segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+    width: 1px;
+    height: 2rem;
+    background: linear-gradient(
+      180deg,
+      var(--bridge-corridor-border),
+      var(--color-primary-dim),
+      var(--bridge-corridor-border)
+    );
+    margin: 0 auto;
+  }
+
+  .bridge-diagram__segment-label {
+    position: absolute;
+    left: calc(100% + var(--space-3));
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-primary-dim);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 768px) {
+    .bridge-diagram__segment {
+      width: clamp(1.5rem, 4vw, 3.5rem);
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        var(--bridge-corridor-border),
+        var(--color-primary-dim),
+        var(--bridge-corridor-border)
+      );
+      margin: 0;
+    }
+
+    .bridge-diagram__segment-label {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + var(--space-2));
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Key Points — Alternating Layout */
+  .arch-points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .arch-point {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    align-items: stretch;
+  }
+
+  @media (min-width: 1024px) {
+    .arch-point {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .arch-point--reversed {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .arch-point__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .arch-point__title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-bright);
+  }
+
+  @media (min-width: 1024px) {
+    .arch-point__title {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  .arch-point__description {
+    margin: 0;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+    max-width: 50ch;
+  }
+
+  @media (min-width: 1024px) {
+    .arch-point__description {
+      font-size: var(--text-lg);
+    }
+  }
+
+  .arch-point__code {
+    flex: 1;
+    min-width: 0;
+  }
+</style>

@@ -1,0 +1,412 @@
+---
+import { externalLinks } from "../../config/links";
+import Badge from "../ui/Badge.astro";
+import Button from "../ui/Button.astro";
+import TerminalFrame from "../ui/TerminalFrame.astro";
+import CodeBlock from "../ui/CodeBlock.astro";
+
+const sqlCode = `-- Query the latest blocks from Hive blockchain
+SELECT num, created_at, producer
+FROM hive.blocks
+ORDER BY num DESC
+LIMIT 5;`;
+---
+
+<section class="haf-hero" id="hero" aria-labelledby="hero-heading">
+  <!-- Split background: blockchain | bridge corridor | SQL -->
+  <div class="haf-hero__split" aria-hidden="true">
+    <div class="haf-hero__split-blockchain bridge-world-blockchain">
+      <!-- Blockchain floating nodes -->
+      <div class="haf-hero__node haf-hero__node--1"></div>
+      <div class="haf-hero__node haf-hero__node--2"></div>
+      <div class="haf-hero__node haf-hero__node--3"></div>
+      <div class="haf-hero__node haf-hero__node--4"></div>
+      <div class="haf-hero__node haf-hero__node--5"></div>
+      <!-- Hash fragments -->
+      <div class="haf-hero__hash haf-hero__hash--1">0xf7a2</div>
+      <div class="haf-hero__hash haf-hero__hash--2">0x3bc1</div>
+      <div class="haf-hero__hash haf-hero__hash--3">0xe9d4</div>
+    </div>
+    <div class="haf-hero__split-bridge bridge-corridor">
+      <!-- Data particles flowing L→R -->
+      <div class="bridge-particle" style="top: 15%; animation-delay: 0s;"></div>
+      <div class="bridge-particle" style="top: 30%; animation-delay: 0.5s;"></div>
+      <div class="bridge-particle" style="top: 45%; animation-delay: 1.1s;"></div>
+      <div class="bridge-particle" style="top: 60%; animation-delay: 1.7s;"></div>
+      <div class="bridge-particle" style="top: 75%; animation-delay: 2.2s;"></div>
+      <div class="bridge-particle" style="top: 88%; animation-delay: 0.8s;"></div>
+    </div>
+    <div class="haf-hero__split-sql bridge-world-sql">
+      <!-- SQL ordered elements -->
+      <div class="haf-hero__sql-row haf-hero__sql-row--1"></div>
+      <div class="haf-hero__sql-row haf-hero__sql-row--2"></div>
+      <div class="haf-hero__sql-row haf-hero__sql-row--3"></div>
+    </div>
+  </div>
+
+  <!-- Central radial glow -->
+  <div class="haf-hero__glow" aria-hidden="true"></div>
+
+  <!-- Gradient fade to dark sections below -->
+  <div class="haf-hero__fade" aria-hidden="true"></div>
+
+  <div class="container haf-hero__container">
+    <!-- Text content -->
+    <div class="haf-hero__content">
+      <Badge variant="hero" class="haf-hero__badge">
+        The Bridge Between Blockchain and SQL
+      </Badge>
+
+      <h1 id="hero-heading" class="haf-hero__heading">
+        Build Blockchain Apps
+        <br />
+        with SQL
+      </h1>
+
+      <p class="haf-hero__subtitle">
+        HAF transforms Hive blockchain data into a PostgreSQL database. Query
+        blocks, transactions, and operations with standard SQL — no custom
+        protocols, no complex APIs.
+      </p>
+
+      <div class="haf-hero__cta">
+        <Button variant="gradient" size="lg" href="#getting-started">
+          Get Started
+        </Button>
+        <Button
+          variant="secondary"
+          size="lg"
+          href={externalLinks.gitlab}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="haf-hero__btn-secondary"
+        >
+          View on GitLab
+        </Button>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="haf-hero__terminal">
+      <TerminalFrame title="psql — haf_block_log">
+        <CodeBlock code={sqlCode} lang="sql" />
+      </TerminalFrame>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* =================================================================
+     Hero — "The Bridge" Dark Theme
+     ================================================================= */
+
+  .haf-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-block: calc(4rem + var(--space-20)) var(--space-16);
+    background-color: var(--bridge-hero-bg);
+  }
+
+  @media (min-width: 1024px) {
+    .haf-hero {
+      padding-block: calc(4rem + var(--space-24)) var(--space-20);
+    }
+  }
+
+  /* --- Split background layer --- */
+
+  .haf-hero__split {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .haf-hero__split {
+      flex-direction: row;
+    }
+  }
+
+  /* Mobile: vertical stack */
+  .haf-hero__split-blockchain {
+    flex: 1;
+  }
+
+  .haf-hero__split-bridge {
+    height: 6px;
+    flex-shrink: 0;
+  }
+
+  .haf-hero__split-sql {
+    flex: 1;
+  }
+
+  /* Desktop: horizontal split 45% / 10% / 45% */
+  @media (min-width: 1024px) {
+    .haf-hero__split-blockchain {
+      flex: 0 0 45%;
+    }
+
+    .haf-hero__split-bridge {
+      flex: 0 0 10%;
+      height: auto;
+    }
+
+    .haf-hero__split-sql {
+      flex: 0 0 45%;
+    }
+  }
+
+  /* --- Blockchain floating nodes --- */
+
+  .haf-hero__node {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary);
+    opacity: 0.25;
+    animation: bridge-node-float var(--bridge-duration-blockchain-slow)
+      var(--bridge-ease-chaos) infinite;
+  }
+
+  .haf-hero__node::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 98, 7, 0.12);
+  }
+
+  .haf-hero__node--1 { top: 12%; left: 15%; animation-delay: 0s; }
+  .haf-hero__node--2 { top: 30%; left: 60%; animation-delay: 0.8s; animation-duration: 3s; }
+  .haf-hero__node--3 { top: 55%; left: 25%; animation-delay: 1.5s; animation-duration: 3.5s; }
+  .haf-hero__node--4 { top: 72%; left: 70%; animation-delay: 0.3s; }
+  .haf-hero__node--5 { top: 45%; left: 42%; animation-delay: 2s; animation-duration: 3s; }
+
+  @media (max-width: 1023px) {
+    .haf-hero__node {
+      opacity: 0.15;
+    }
+  }
+
+  /* --- Blockchain hash fragments --- */
+
+  .haf-hero__hash {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--color-primary);
+    opacity: 0.08;
+    animation: bridge-node-float var(--bridge-duration-blockchain-mid)
+      var(--bridge-ease-chaos) infinite;
+    user-select: none;
+  }
+
+  .haf-hero__hash--1 { top: 22%; left: 8%; animation-delay: 0.4s; }
+  .haf-hero__hash--2 { top: 65%; left: 50%; animation-delay: 1.2s; }
+  .haf-hero__hash--3 { top: 40%; left: 78%; animation-delay: 2.1s; }
+
+  @media (max-width: 1023px) {
+    .haf-hero__hash {
+      display: none;
+    }
+  }
+
+  /* --- SQL ordered row elements --- */
+
+  .haf-hero__sql-row {
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+  }
+
+  .haf-hero__sql-row--1 { top: 28%; }
+  .haf-hero__sql-row--2 { top: 50%; }
+  .haf-hero__sql-row--3 { top: 72%; }
+
+  @media (max-width: 1023px) {
+    .haf-hero__sql-row {
+      display: none;
+    }
+  }
+
+  /* --- Central radial glow (replaces sun glow) --- */
+
+  .haf-hero__glow {
+    position: absolute;
+    inset: 0;
+    background: var(--bridge-hero-gradient);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* --- Gradient fade to dark sections below --- */
+
+  .haf-hero__fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--color-bg));
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* --- Container layout --- */
+
+  .haf-hero__container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  @media (min-width: 1024px) {
+    .haf-hero__container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: var(--space-16);
+    }
+  }
+
+  /* --- Text content --- */
+
+  .haf-hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  /* --- Staggered entry animation --- */
+
+  .haf-hero__badge,
+  .haf-hero__heading,
+  .haf-hero__subtitle,
+  .haf-hero__cta,
+  .haf-hero__terminal {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hero-fade-in 600ms ease-out forwards;
+  }
+
+  .haf-hero__badge { animation-delay: 0ms; }
+  .haf-hero__heading { animation-delay: 80ms; }
+  .haf-hero__subtitle { animation-delay: 160ms; }
+  .haf-hero__cta { animation-delay: 240ms; }
+  .haf-hero__terminal { animation-delay: 320ms; }
+
+  @keyframes hero-fade-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .haf-hero__badge,
+    .haf-hero__heading,
+    .haf-hero__subtitle,
+    .haf-hero__cta,
+    .haf-hero__terminal {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    .haf-hero__node,
+    .haf-hero__hash {
+      animation: none;
+    }
+  }
+
+  /* --- Badge --- */
+
+  .haf-hero__badge {
+    align-self: flex-start;
+  }
+
+  /* --- Heading --- */
+
+  .haf-hero__heading {
+    font-size: var(--text-5xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--bridge-hero-text);
+  }
+
+  @media (min-width: 768px) {
+    .haf-hero__heading {
+      font-size: var(--text-6xl);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .haf-hero__heading {
+      font-size: var(--text-7xl);
+    }
+  }
+
+  /* --- Subtitle --- */
+
+  .haf-hero__subtitle {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--bridge-hero-text-muted);
+    max-width: 60ch;
+  }
+
+  /* --- CTA group --- */
+
+  .haf-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding-top: var(--space-2);
+  }
+
+  /* Secondary button — light border on dark bg */
+  .haf-hero__cta :global(.haf-hero__btn-secondary) {
+    color: var(--color-text);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .haf-hero__cta :global(.haf-hero__btn-secondary:hover) {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  /* --- Terminal block --- */
+
+  .haf-hero__terminal {
+    width: 100%;
+    max-width: 580px;
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-xl);
+  }
+
+  @media (min-width: 1024px) {
+    .haf-hero__terminal {
+      max-width: none;
+    }
+  }
+</style>

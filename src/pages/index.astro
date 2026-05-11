@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/sections/Nav.astro';
+import Hero from '../components/sections/Hero.astro';
+import SocialProof from '../components/sections/SocialProof.astro';
+import FeaturesGrid from '../components/sections/FeaturesGrid.astro';
+import Architecture from '../components/sections/Architecture.astro';
+import Ecosystem from '../components/sections/Ecosystem.astro';
+import GettingStarted from '../components/sections/GettingStarted.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import Footer from '../components/sections/Footer.astro';
+---
+
+<BaseLayout
+  title="PostgreSQL-powered blockchain indexing"
+  description="PostgreSQL-based indexing layer for the Hive blockchain. Build powerful blockchain applications with SQL."
+>
+  <Nav />
+  <main id="main">
+    <Hero />
+    <div class="bridge-gate" aria-hidden="true"></div>
+    <SocialProof />
+    <FeaturesGrid />
+    <div class="bridge-gate" aria-hidden="true"></div>
+    <Architecture />
+    <div class="bridge-gate" aria-hidden="true"></div>
+    <Ecosystem />
+    <div class="bridge-gate" aria-hidden="true"></div>
+    <GettingStarted />
+    <FAQ />
+  </main>
+
+  <script>
+    if (!CSS.supports("animation-timeline: view()")) {
+      const gates = document.querySelectorAll(".bridge-gate");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("bridge-gate--visible");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      gates.forEach((g) => io.observe(g));
+    }
+  </script>
+  <Footer />
+</BaseLayout>

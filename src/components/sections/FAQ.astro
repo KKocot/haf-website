@@ -1,0 +1,212 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const faqs = [
+  {
+    question: "What is HAF?",
+    answer:
+      "HAF (Hive Application Framework) is a PostgreSQL-based middleware layer that sits between the Hive blockchain node (hived) and your applications. It captures every block and transaction into a PostgreSQL database, giving you SQL access to the entire blockchain history.",
+  },
+  {
+    question: "How does HAF handle blockchain forks?",
+    answer:
+      "HAF includes HiveForkManager which automatically tracks reversible and irreversible blocks. When a microfork occurs, it rolls back affected data in your application's tables automatically. You write your app logic as if forks don't exist.",
+  },
+  {
+    question: "Can I run multiple apps on one HAF instance?",
+    answer:
+      "Yes. HAF is designed for multi-app architecture. Each application registers its own context and processes blocks independently. They share the same blockchain data without conflicts or performance bottlenecks.",
+  },
+  {
+    question: "What are the hardware requirements?",
+    answer:
+      "For a full replay of the Hive blockchain, you'll need approximately 500GB+ of NVMe storage, 64GB+ RAM, and a modern multi-core CPU. For development with partial data, much less is needed — the Docker setup works on standard developer machines.",
+  },
+  {
+    question: "Do I need to know C++ to use HAF?",
+    answer:
+      "No. HAF's core is C++/PostgreSQL, but application developers interact with it purely through SQL. You can build HAF applications in any language that has a PostgreSQL driver — Python, JavaScript, Ruby, Go, Rust, etc.",
+  },
+  {
+    question: "Is HAF production-ready?",
+    answer:
+      "Yes. HAF powers critical Hive infrastructure including Hivemind (the social networking layer), various API services, and block explorers. It's actively maintained by the Hive core development team.",
+  },
+];
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+<section id="faq" class="section-padding faq-section" aria-labelledby="faq-heading">
+  <div class="container">
+    <SectionHeading
+      id="faq-heading"
+      badge="FAQ"
+      title="Frequently asked questions"
+    />
+
+    <div class="faq-list">
+      {
+        faqs.map((faq) => (
+          <details class="faq-item">
+            <summary class="faq-item__summary">
+              <span class="faq-item__question">{faq.question}</span>
+              <svg
+                class="faq-item__chevron"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 7.5l5 5 5-5"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </summary>
+            <div class="faq-item__body">
+              <p class="faq-item__answer">{faq.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    position: relative;
+    background: var(--color-bg);
+  }
+
+  .faq-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+  }
+
+  .faq-list {
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+
+  /* --- Individual FAQ item --- */
+
+  .faq-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: 2px solid transparent;
+    padding-left: var(--space-4);
+    transition: border-left-color var(--transition-base);
+  }
+
+  .faq-item:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .faq-item[open] {
+    border-left-color: var(--color-primary);
+  }
+
+  /* --- Summary (question row) --- */
+
+  .faq-item__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5) 0;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  /* Remove default marker */
+  .faq-item__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item__summary::marker {
+    content: "";
+  }
+
+  .faq-item__question {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-snug);
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+  }
+
+  .faq-item__summary:hover .faq-item__question {
+    color: var(--color-text-bright);
+  }
+
+  .faq-item__summary:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus-ring);
+    border-radius: var(--radius-md);
+  }
+
+  /* --- Chevron icon --- */
+
+  .faq-item__chevron {
+    flex-shrink: 0;
+    color: var(--color-text-very-subtle);
+    transition: transform var(--transition-base);
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq-item[open] .faq-item__chevron {
+    transform: rotate(180deg);
+  }
+
+  /* --- Body (answer) with grid animation --- */
+
+  .faq-item__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--transition-base);
+  }
+
+  .faq-item[open] .faq-item__body {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-item__answer {
+    overflow: hidden;
+    margin: 0;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+    max-width: 60ch;
+    padding-bottom: var(--space-6);
+  }
+</style>

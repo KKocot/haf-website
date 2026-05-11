@@ -1,0 +1,248 @@
+---
+import { externalLinks } from "../../config/links";
+import { siteConfig } from "../../config/site";
+
+const resourceLinks = [
+  { label: "Documentation", href: externalLinks.docs },
+  { label: "GitLab Repository", href: externalLinks.gitlab },
+  { label: "Docker Setup", href: externalLinks.docker },
+  { label: "API Reference", href: "https://gitlab.syncad.com/hive/haf_api" },
+];
+
+const ecosystemLinks = [
+  { label: "Hive.io", href: externalLinks.hive },
+  { label: "Hivemind", href: externalLinks.hivemind },
+  { label: "HAF API Node", href: externalLinks.docker },
+  { label: "Block Explorer", href: "https://hiveblocks.com" },
+];
+
+const communityLinks = [
+  {
+    label: "GitLab Issues",
+    href: "https://gitlab.syncad.com/hive/haf/-/issues",
+  },
+  { label: "Hive Developers", href: "https://developers.hive.io" },
+];
+---
+
+<footer class="haf-footer" role="contentinfo">
+  <div class="container">
+    <div class="haf-footer__grid">
+      <!-- Col 1: Brand -->
+      <div class="haf-footer__brand">
+        <div class="haf-footer__logo">
+          <span class="haf-footer__logo-mark">{siteConfig.name}</span>
+          <span class="haf-footer__logo-full">{siteConfig.fullName}</span>
+        </div>
+        <p class="haf-footer__tagline">
+          Open-source blockchain indexing infrastructure
+        </p>
+      </div>
+
+      <!-- Col 2: Resources -->
+      <nav class="haf-footer__nav" aria-label="Resources">
+        <h3 class="haf-footer__heading">Resources</h3>
+        <ul class="haf-footer__list" role="list">
+          {
+            resourceLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="haf-footer__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Col 3: Ecosystem -->
+      <nav class="haf-footer__nav" aria-label="Ecosystem">
+        <h3 class="haf-footer__heading">Ecosystem</h3>
+        <ul class="haf-footer__list" role="list">
+          {
+            ecosystemLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="haf-footer__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Col 4: Community -->
+      <nav class="haf-footer__nav" aria-label="Community">
+        <h3 class="haf-footer__heading">Community</h3>
+        <ul class="haf-footer__list" role="list">
+          {
+            communityLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="haf-footer__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="haf-footer__bottom">
+      <p class="haf-footer__built">
+        Built for the <span class="haf-footer__hive">Hive</span> blockchain
+      </p>
+      <p class="haf-footer__copy">&copy; {new Date().getFullYear()} Hive</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .haf-footer {
+    border-top: 1px solid transparent;
+    border-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 98, 7, 0.3),
+      transparent
+    ) 1;
+    background-color: var(--color-bg-darkest);
+    padding-block: var(--space-16);
+  }
+
+  .haf-footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  @media (min-width: 640px) {
+    .haf-footer__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .haf-footer__grid {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-12);
+    }
+  }
+
+  /* --- Brand column --- */
+
+  .haf-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .haf-footer__logo {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .haf-footer__logo-mark {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .haf-footer__logo-full {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  .haf-footer__tagline {
+    margin: 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+    max-width: 28ch;
+  }
+
+  /* --- Nav columns --- */
+
+  .haf-footer__heading {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-bright);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    margin-bottom: var(--space-4);
+  }
+
+  .haf-footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .haf-footer__link {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition:
+      color var(--transition-fast),
+      text-decoration var(--transition-fast);
+  }
+
+  .haf-footer__link:hover {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* --- Bottom bar --- */
+
+  .haf-footer__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: center;
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  @media (min-width: 640px) {
+    .haf-footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .haf-footer__built,
+  .haf-footer__copy {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  .haf-footer__hive {
+    color: var(--color-hive);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

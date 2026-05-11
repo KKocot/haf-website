@@ -1,0 +1,109 @@
+---
+const projects = [
+  { name: "Hivemind", description: "Social Indexer" },
+  { name: "HiveSQL", description: "Data Analytics" },
+  { name: "HAF API Node", description: "Deployment" },
+  { name: "Balance Tracker", description: "Account Balances" },
+  { name: "HAfAH", description: "API Framework" },
+];
+---
+
+<section class="haf-social-proof section-padding" aria-label="Ecosystem projects powered by HAF">
+  <div class="container">
+    <p class="haf-social-proof__heading">
+      Powering applications across the Hive ecosystem
+    </p>
+
+    <ul class="haf-social-proof__list" role="list">
+      {projects.map((project) => (
+        <li class="haf-social-proof__item">
+          <span class="haf-social-proof__name">{project.name}</span>
+          <span class="haf-social-proof__desc">{project.description}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .haf-social-proof {
+    position: relative;
+    border-bottom: none;
+  }
+
+  .haf-social-proof::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 98, 7, 0.25),
+      transparent
+    );
+  }
+
+  .haf-social-proof__heading {
+    text-align: center;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-subtle);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    margin: 0 0 var(--space-10) 0;
+  }
+
+  .haf-social-proof__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 768px) {
+    .haf-social-proof__list {
+      gap: var(--space-12);
+    }
+  }
+
+  .haf-social-proof__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 0.4;
+    transition: opacity var(--transition-base);
+    cursor: default;
+  }
+
+  .haf-social-proof__item:hover {
+    opacity: 0.8;
+  }
+
+  .haf-social-proof__name {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-bright);
+    letter-spacing: var(--tracking-mono);
+    white-space: nowrap;
+  }
+
+  .haf-social-proof__desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    white-space: nowrap;
+  }
+</style>

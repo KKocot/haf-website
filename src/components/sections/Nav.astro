@@ -1,0 +1,179 @@
+---
+import { navLinks, externalLinks } from "../../config/links";
+import Button from "../ui/Button.astro";
+import MobileMenu from "../islands/MobileMenu";
+---
+
+<header class="haf-nav" id="main-nav" role="banner">
+  <nav class="container haf-nav__inner" aria-label="Main navigation">
+    <!-- Logo -->
+    <a href="/" class="haf-nav__logo" aria-label="HAF - Hive Application Framework, go to homepage">
+      <span class="haf-nav__logo-mark">HAF</span>
+      <span class="haf-nav__logo-sub" aria-hidden="true">Hive Application Framework</span>
+    </a>
+
+    <!-- Desktop links (absolute centered) -->
+    <ul class="haf-nav__links" role="list">
+      {navLinks.map((link) => (
+        <li>
+          <a href={link.href} class="haf-nav__link">
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Desktop CTA -->
+    <div class="haf-nav__actions">
+      <Button
+        variant="gradient"
+        size="sm"
+        href="#getting-started"
+      >
+        Get Started
+      </Button>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <MobileMenu links={navLinks} client:media="(max-width: 1023px)" />
+  </nav>
+</header>
+
+<script>
+  // IntersectionObserver: toggle scrolled state when hero leaves viewport
+  const nav = document.getElementById('main-nav');
+  const hero = document.getElementById('hero');
+
+  if (nav && hero) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          nav.removeAttribute('data-scrolled');
+        } else {
+          nav.setAttribute('data-scrolled', '');
+        }
+      },
+      { threshold: 0, rootMargin: '-64px 0px 0px 0px' }
+    );
+    observer.observe(hero);
+  }
+</script>
+
+<style>
+  .haf-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-toast); /* z-50 */
+    background-color: transparent;
+    transition:
+      background-color 0.3s ease-out,
+      backdrop-filter 0.3s ease-out;
+  }
+
+  /* Scrolled state — dark frosted glass */
+  .haf-nav:global([data-scrolled]) {
+    background-color: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .haf-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem; /* 64px */
+    position: relative;
+  }
+
+  /* --- Logo --- */
+
+  .haf-nav__logo {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    text-decoration: none;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .haf-nav__logo:hover {
+    color: inherit;
+  }
+
+  .haf-nav__logo-mark {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .haf-nav__logo-sub {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-normal);
+    display: none;
+    transition: color 0.3s ease-out;
+  }
+
+  @media (min-width: 768px) {
+    .haf-nav__logo-sub {
+      display: inline;
+    }
+  }
+
+  /* --- Desktop nav links (absolute centered) --- */
+
+  .haf-nav__links {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--space-1);
+  }
+
+  @media (min-width: 1024px) {
+    .haf-nav__links {
+      display: flex;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .haf-nav__link {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition:
+      color 0.3s ease-out,
+      background-color var(--transition-fast);
+  }
+
+  .haf-nav__link:hover {
+    color: var(--color-text);
+    background-color: var(--color-primary-ghost);
+  }
+
+  /* --- Desktop actions --- */
+
+  .haf-nav__actions {
+    display: none;
+    z-index: 1;
+  }
+
+  @media (min-width: 1024px) {
+    .haf-nav__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+  }
+</style>
