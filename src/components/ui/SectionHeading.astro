@@ -17,6 +17,7 @@ const {
   align = "center",
   id,
   class: className,
+  ...rest
 } = Astro.props;
 ---
 
@@ -26,6 +27,7 @@ const {
     { "haf-section-heading--center": align === "center" },
     className,
   ]}
+  {...rest}
 >
   {badge && <Badge variant="accent">{badge}</Badge>}
   <h2 class="haf-section-heading__title" id={id}>{title}</h2>

@@ -46,12 +46,13 @@ const projects = [
       badge="Beyond the Bridge"
       title="What awaits across the bridge"
       subtitle="Production apps already crossing the bridge — from raw blockchain to real-world use."
+      data-scroll-reveal
     />
 
     <div class="eco-grid">
       {
-        projects.map((project) => (
-          <Card class="eco-card">
+        projects.map((project, index) => (
+          <Card class="eco-card" data-scroll-reveal style={`--i: ${index}`}>
             <h3 class="eco-card__name">{project.name}</h3>
             <p class="eco-card__desc">{project.description}</p>
             {project.link && (
@@ -129,7 +130,47 @@ const projects = [
   /* --- Card overrides --- */
 
   .eco-card {
+    position: relative;
     border-top: 1px solid rgba(255, 98, 7, 0.2);
+    overflow: hidden;
+  }
+
+  /* Stagger override: 100ms per card instead of global 80ms */
+  .eco-card:global([data-scroll-reveal]) {
+    animation-delay: calc(var(--i, 0) * 100ms);
+  }
+
+  /* --- Glow sweep pseudo-element on border-top --- */
+
+  .eco-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 98, 7, 0.6) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-position: -200% center;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .eco-card:global([data-scroll-reveal])::before {
+    animation: glow-sweep 1.2s ease both;
+    animation-delay: calc(var(--i, 0) * 100ms + 200ms);
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  :global(.scroll-reveal-visible).eco-card::before {
+    animation: glow-sweep 1.2s ease both;
+    animation-delay: calc(var(--i, 0) * 100ms + 200ms);
   }
 
   /* --- Card internals --- */
@@ -175,5 +216,14 @@ const projects = [
 
   .eco-card__link:hover svg {
     transform: translateX(3px);
+  }
+
+  /* --- Reduced motion: disable glow sweep --- */
+
+  @media (prefers-reduced-motion: reduce) {
+    .eco-card::before {
+      animation: none !important;
+      background-position: -200% center;
+    }
   }
 </style>

@@ -10,13 +10,13 @@ const projects = [
 
 <section class="haf-social-proof section-padding" aria-label="Ecosystem projects powered by HAF">
   <div class="container">
-    <p class="haf-social-proof__heading">
+    <p class="haf-social-proof__heading" data-scroll-reveal>
       Powering applications across the Hive ecosystem
     </p>
 
     <ul class="haf-social-proof__list" role="list">
-      {projects.map((project) => (
-        <li class="haf-social-proof__item">
+      {projects.map((project, i) => (
+        <li class="haf-social-proof__item" data-scroll-reveal style={`--i: ${i}`}>
           <span class="haf-social-proof__name">{project.name}</span>
           <span class="haf-social-proof__desc">{project.description}</span>
         </li>
@@ -89,7 +89,30 @@ const projects = [
   }
 
   .haf-social-proof__item:hover {
-    opacity: 0.8;
+    opacity: 0.8 !important;
+  }
+
+  /* --- Scroll-reveal: blur-to-clear for project items ---
+     Keyframe scroll-reveal-blur animuje do var(--scroll-reveal-final-opacity, 1).
+     Ustawiamy --scroll-reveal-final-opacity: 0.4 aby final state = design opacity.
+     animation-fill-mode: both utrzymuje final state po animacji.
+     Hover uzywa !important aby nadpisac animated opacity. */
+  .haf-social-proof__item[data-scroll-reveal] {
+    --scroll-reveal-final-opacity: 0.4;
+    animation-name: scroll-reveal-blur;
+    animation-duration: 500ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+    animation-delay: calc(var(--i, 0) * 120ms);
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  /* IO fallback: blur-to-clear via .scroll-reveal-visible */
+  .haf-social-proof__item.scroll-reveal-visible {
+    --scroll-reveal-final-opacity: 0.4;
+    animation: scroll-reveal-blur 500ms ease-out both;
+    animation-delay: calc(var(--i, 0) * 120ms);
   }
 
   .haf-social-proof__name {
@@ -105,5 +128,14 @@ const projects = [
     font-size: var(--text-xs);
     color: var(--color-text-subtle);
     white-space: nowrap;
+  }
+
+  /* --- prefers-reduced-motion: preserve design resting opacity (0.4) --- */
+  @media (prefers-reduced-motion: reduce) {
+    .haf-social-proof__item {
+      opacity: 0.4 !important;
+      filter: none !important;
+      animation: none !important;
+    }
   }
 </style>

@@ -2,13 +2,17 @@
 interface Props {
   glow?: boolean;
   class?: string;
+  "data-scroll-reveal"?: boolean;
+  style?: string;
 }
 
-const { glow = false, class: className } = Astro.props;
+const { glow = false, class: className, style, ...attrs } = Astro.props;
 ---
 
 <article
   class:list={["haf-card", { "haf-card--glow": glow }, className]}
+  style={style}
+  {...attrs}
 >
   <slot />
 </article>

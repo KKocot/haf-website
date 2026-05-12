@@ -54,12 +54,18 @@ ORDER BY block_num DESC LIMIT 10;`,
       badge="Cross the Bridge"
       title="Cross the bridge in 3 steps"
       subtitle="Get HAF running locally with Docker Compose."
+      data-scroll-reveal
     />
 
     <div class="steps">
       {
         steps.map((step, i) => (
-          <div class="step" data-step={step.number}>
+          <div
+            class="step"
+            data-step={step.number}
+            data-scroll-reveal
+            style={`--i: ${i}`}
+          >
             <div class="step__indicator">
               <span class="step__number">{step.number}</span>
               {i < steps.length - 1 && (
@@ -217,6 +223,55 @@ ORDER BY block_num DESC LIMIT 10;`,
     font-weight: var(--font-weight-semibold);
     line-height: var(--leading-snug);
     color: var(--color-text-bright);
+  }
+
+  /* --- Scroll-reveal: stagger delay 150ms per step --- */
+
+  .step[data-scroll-reveal] {
+    animation-delay: calc(var(--i, 0) * 150ms);
+  }
+
+  .step[data-scroll-reveal].scroll-reveal-visible {
+    animation-delay: calc(var(--i, 0) * 150ms);
+  }
+
+  /* --- Step line: base state (no animation) --- */
+
+  .step__line {
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+
+  /* Scroll-driven fill: only in browsers supporting animation-timeline */
+  @supports (animation-timeline: view()) {
+    .step__line {
+      animation: line-fill 800ms ease-out both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+  }
+
+  /* IO fallback: animate on scroll-reveal-visible */
+  .scroll-reveal-visible .step__line,
+  .step.scroll-reveal-visible .step__line {
+    animation: line-fill 800ms ease-out both;
+  }
+
+  /* --- Ghost numbers: animate opacity on reveal --- */
+
+  .step::before {
+    opacity: 0;
+    transition: opacity 600ms ease;
+  }
+
+  .step[data-scroll-reveal]::before {
+    animation: ghost-number-reveal 800ms ease both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  .step.scroll-reveal-visible::before {
+    animation: ghost-number-reveal 800ms ease both;
   }
 
   /* --- CTA --- */

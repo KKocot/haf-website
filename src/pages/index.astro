@@ -33,18 +33,32 @@ import Footer from '../components/sections/Footer.astro';
   <script>
     if (!CSS.supports("animation-timeline: view()")) {
       const gates = document.querySelectorAll(".bridge-gate");
-      const io = new IntersectionObserver(
+      const gateIo = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (e.isIntersecting) {
               e.target.classList.add("bridge-gate--visible");
-              io.unobserve(e.target);
+              gateIo.unobserve(e.target);
             }
           });
         },
         { threshold: 0.3 }
       );
-      gates.forEach((g) => io.observe(g));
+      gates.forEach((g) => gateIo.observe(g));
+
+      const reveals = document.querySelectorAll("[data-scroll-reveal]");
+      const revealIo = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("scroll-reveal-visible");
+              revealIo.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      reveals.forEach((el) => revealIo.observe(el));
     }
   </script>
   <Footer />

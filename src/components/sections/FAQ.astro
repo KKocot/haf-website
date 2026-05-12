@@ -55,12 +55,13 @@ const faqJsonLd = {
       id="faq-heading"
       badge="FAQ"
       title="Frequently asked questions"
+      data-scroll-reveal
     />
 
     <div class="faq-list">
       {
-        faqs.map((faq) => (
-          <details class="faq-item">
+        faqs.map((faq, index) => (
+          <details class="faq-item" data-scroll-reveal style={`--i: ${index + 1}`}>
             <summary class="faq-item__summary">
               <span class="faq-item__question">{faq.question}</span>
               <svg
@@ -120,18 +121,41 @@ const faqJsonLd = {
   /* --- Individual FAQ item --- */
 
   .faq-item {
+    position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    border-left: 2px solid transparent;
     padding-left: var(--space-4);
-    transition: border-left-color var(--transition-base);
+
+    /* Scroll-reveal cascade (border-flash moved to ::before pseudo-element) */
+    animation: scroll-reveal-up 600ms ease both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  /* Pseudo-element replaces border-left for GPU-composited animation */
+  .faq-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 98, 7, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    animation: faq-border-flash 800ms ease both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
   }
 
   .faq-item:first-child {
     border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .faq-item[open] {
-    border-left-color: var(--color-primary);
+  .faq-item[open]::before {
+    opacity: 1;
+    animation: none;
   }
 
   /* --- Summary (question row) --- */
@@ -208,5 +232,30 @@ const faqJsonLd = {
     color: var(--color-text-muted);
     max-width: 60ch;
     padding-bottom: var(--space-6);
+  }
+
+  /* --- IO fallback: cascade when scroll-reveal-visible is added --- */
+  .faq-item.scroll-reveal-visible {
+    animation: scroll-reveal-up 600ms ease both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+
+  .faq-item.scroll-reveal-visible::before {
+    animation: faq-border-flash 800ms ease both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+
+  /* --- Reduced motion: disable all animations --- */
+  @media (prefers-reduced-motion: reduce) {
+    .faq-item {
+      animation: none !important;
+    }
+    .faq-item::before {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+    .faq-item[open]::before {
+      opacity: 1 !important;
+    }
   }
 </style>

@@ -55,15 +55,18 @@ const features = [
       badge="Three Pillars of the Bridge"
       title="Everything you need to build on Hive"
       subtitle="HAF handles the hard parts of blockchain development so you can focus on your application logic."
+      data-scroll-reveal
     />
     <div class="features-grid">
       {
-        features.map((feature) => (
+        features.map((feature, index) => (
           <FeatureCard
             title={feature.subtitle ? `${feature.title}` : feature.title}
             icon={feature.icon}
             description={feature.subtitle ? `${feature.subtitle} — ${feature.description}` : feature.description}
             class={feature.pillar ? "bridge-pillar" : "features-secondary"}
+            data-scroll-reveal
+            style={`--i: ${index}`}
           />
         ))
       }
@@ -113,5 +116,89 @@ const features = [
   /* Secondary features — slightly subdued */
   .features-grid :global(.features-secondary) {
     opacity: 0.85;
+  }
+
+  /* --- Scroll-reveal stagger: 100ms per card --- */
+  .features-grid :global([data-scroll-reveal]) {
+    animation-delay: calc(var(--i, 0) * 100ms);
+  }
+  .features-grid :global(.scroll-reveal-visible) {
+    animation-delay: calc(var(--i, 0) * 100ms);
+  }
+
+  /* --- Pillar glow: pseudo-element ::after for GPU-composited glow --- */
+  .features-grid :global(.bridge-pillar) {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .features-grid :global(.bridge-pillar::after) {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 98, 7, 0.8);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .features-grid :global(.bridge-pillar[data-scroll-reveal]) {
+    animation: scroll-reveal-up 600ms ease both;
+    animation-delay: calc(var(--i, 0) * 100ms);
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+  .features-grid :global(.bridge-pillar[data-scroll-reveal]::after) {
+    animation: pillar-glow 1s ease both;
+    animation-delay: calc(var(--i, 0) * 100ms);
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  .features-grid :global(.bridge-pillar.scroll-reveal-visible) {
+    animation: scroll-reveal-up 600ms ease both;
+    animation-delay: calc(var(--i, 0) * 100ms);
+  }
+  .features-grid :global(.bridge-pillar.scroll-reveal-visible::after) {
+    animation: pillar-glow 1s ease both;
+    animation-delay: calc(var(--i, 0) * 100ms);
+  }
+
+  /* --- Secondary cards: reveal with scale --- */
+  .features-grid :global(.features-secondary[data-scroll-reveal]) {
+    animation:
+      scroll-reveal-scale 600ms ease both;
+    animation-delay: calc(var(--i, 0) * 100ms);
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+  .features-grid :global(.features-secondary.scroll-reveal-visible) {
+    animation:
+      scroll-reveal-scale 600ms ease both;
+    animation-delay: calc(var(--i, 0) * 100ms);
+  }
+
+  /* --- prefers-reduced-motion: disable all local animations --- */
+  @media (prefers-reduced-motion: reduce) {
+    .features-grid :global([data-scroll-reveal]),
+    .features-grid :global(.scroll-reveal-visible),
+    .features-grid :global(.bridge-pillar[data-scroll-reveal]),
+    .features-grid :global(.bridge-pillar.scroll-reveal-visible),
+    .features-grid :global(.features-secondary[data-scroll-reveal]),
+    .features-grid :global(.features-secondary.scroll-reveal-visible) {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .features-grid :global(.features-secondary) {
+      opacity: 0.85 !important;
+    }
+    .features-grid :global(.bridge-pillar::after) {
+      animation: none !important;
+      opacity: 0.4 !important;
+    }
   }
 </style>
