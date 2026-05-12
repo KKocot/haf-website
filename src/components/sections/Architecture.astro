@@ -68,12 +68,6 @@ const flowLabels = ["blocks", "push", "read", "query"];
       role="img"
       aria-label="Architecture diagram showing data flow: hived sends blocks to sql_serializer, which pushes data to PostgreSQL, read by HAF API, queried by your applications"
     >
-      <!-- Aesthetic zones (background only) -->
-      <div class="bridge-diagram__zones" aria-hidden="true">
-        <div class="bridge-diagram__zone bridge-diagram__zone--blockchain"></div>
-        <div class="bridge-diagram__zone bridge-diagram__zone--sql"></div>
-      </div>
-
       <!-- The corridor track -->
       <div class="bridge-diagram__corridor bridge-corridor">
         <!-- Data particles -->
@@ -181,60 +175,19 @@ const flowLabels = ["blocks", "push", "read", "query"];
     }
   }
 
-  /* Aesthetic zones */
-  .bridge-diagram__zones {
+  /* Radial glow — transformation point (PostgreSQL center) */
+  .bridge-diagram::before {
+    content: "";
     position: absolute;
     inset: 0;
-    display: flex;
-    flex-direction: column;
+    background: radial-gradient(
+      ellipse 35% 80% at 50% 50%,
+      rgba(255, 98, 7, 0.07) 0%,
+      rgba(255, 98, 7, 0.03) 40%,
+      transparent 70%
+    );
     pointer-events: none;
     z-index: 0;
-  }
-
-  @media (min-width: 768px) {
-    .bridge-diagram__zones {
-      flex-direction: row;
-    }
-  }
-
-  .bridge-diagram__zone {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .bridge-diagram__zone--blockchain {
-    background-color: var(--blockchain-bg);
-  }
-
-  .bridge-diagram__zone--blockchain::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: repeating-conic-gradient(
-      var(--blockchain-accent) 0% 25%,
-      transparent 0% 50%
-    );
-    background-size: 4px 4px;
-    opacity: var(--blockchain-noise-opacity);
-    animation: blockchain-pulse var(--bridge-duration-blockchain-fast) ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  .bridge-diagram__zone--sql {
-    background-color: var(--sql-bg);
-  }
-
-  .bridge-diagram__zone--sql::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, var(--sql-grid-opacity)) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, var(--sql-grid-opacity)) 1px, transparent 1px);
-    background-size: 40px 40px;
-    animation: sql-steady var(--bridge-duration-sql) ease-in-out infinite;
-    pointer-events: none;
   }
 
   /* Bridge Corridor — layout overrides */
@@ -345,7 +298,7 @@ const flowLabels = ["blocks", "push", "read", "query"];
     white-space: nowrap;
   }
 
-  /* Segment connector */
+  /* Segment connector — animated glow sweep */
   .bridge-diagram__segment {
     display: flex;
     align-items: center;
@@ -356,12 +309,22 @@ const flowLabels = ["blocks", "push", "read", "query"];
     height: 2rem;
     background: linear-gradient(
       180deg,
-      var(--bridge-corridor-border),
-      var(--color-primary-dim),
-      var(--bridge-corridor-border)
+      var(--bridge-corridor-border) 0%,
+      var(--color-primary-dim) 30%,
+      rgba(255, 98, 7, 0.45) 50%,
+      var(--color-primary-dim) 70%,
+      var(--bridge-corridor-border) 100%
     );
+    background-size: 100% 300%;
+    animation: segment-glow-sweep 3s ease-in-out infinite;
     margin: 0 auto;
   }
+
+  /* Stagger animation delay per segment */
+  .bridge-diagram__segment:nth-child(4) { animation-delay: 0s; }
+  .bridge-diagram__segment:nth-child(6) { animation-delay: 0.5s; }
+  .bridge-diagram__segment:nth-child(8) { animation-delay: 1s; }
+  .bridge-diagram__segment:nth-child(10) { animation-delay: 1.5s; }
 
   .bridge-diagram__segment-label {
     position: absolute;
@@ -380,10 +343,13 @@ const flowLabels = ["blocks", "push", "read", "query"];
       height: 2px;
       background: linear-gradient(
         90deg,
-        var(--bridge-corridor-border),
-        var(--color-primary-dim),
-        var(--bridge-corridor-border)
+        var(--bridge-corridor-border) 0%,
+        var(--color-primary-dim) 30%,
+        rgba(255, 98, 7, 0.45) 50%,
+        var(--color-primary-dim) 70%,
+        var(--bridge-corridor-border) 100%
       );
+      background-size: 300% 100%;
       margin: 0;
     }
 

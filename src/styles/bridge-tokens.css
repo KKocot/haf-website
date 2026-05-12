@@ -159,10 +159,10 @@
    -------------------------------------------------------------------------- */
 @keyframes particle-flow {
   0% {
-    transform: translateX(-20px);
+    transform: translateX(-100px);
     opacity: 0;
   }
-  10% {
+  5% {
     opacity: 1;
   }
   90% {
@@ -181,10 +181,10 @@
 @supports not (width: 1cqw) {
   @keyframes particle-flow {
     0% {
-      transform: translateX(-20px);
+      transform: translateX(-100px);
       opacity: 0;
     }
-    10% {
+    5% {
       opacity: 1;
     }
     90% {
@@ -203,10 +203,10 @@
    -------------------------------------------------------------------------- */
 @keyframes particle-flow-vertical {
   0% {
-    transform: translateY(-20px);
+    transform: translateY(-80px);
     opacity: 0;
   }
-  10% {
+  5% {
     opacity: 1;
   }
   90% {
@@ -338,6 +338,25 @@
   50%,
   100% {
     opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   segment-glow-sweep — Gradient sweep przesuwajacy sie wzdluz segmentu
+   (lacznika miedzy node'ami w Architecture diagram).
+   Uzycie: .bridge-diagram__segment { animation: segment-glow-sweep 3s ease-in-out infinite; }
+   Kierunek: pionowy na mobile (top->bottom), poziomy na desktop (left->right).
+   GPU-only: uzywa background-position (composite, nie layout/paint).
+   -------------------------------------------------------------------------- */
+@keyframes segment-glow-sweep {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
   }
 }
 
@@ -687,6 +706,167 @@
 }
 
 /* ==========================================================================
+   5b. @KEYFRAMES — Scroll-Reveal & Section Animations
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   scroll-reveal-up — Bazowy scroll-reveal: element wjezdza od dolu z fade-in.
+   Uzycie: [data-scroll-reveal] lub .scroll-reveal-visible (IO fallback).
+   Duration: 600ms ease. translateY(24px) -> 0.
+   -------------------------------------------------------------------------- */
+@keyframes scroll-reveal-up {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   scroll-reveal-blur — Reveal z blur fade-in (dla SocialProof elementow).
+   Docelowa opacity kontrolowana per element (nie w keyframe).
+   Duration: 500ms ease-out.
+   -------------------------------------------------------------------------- */
+@keyframes scroll-reveal-blur {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: var(--scroll-reveal-final-opacity, 1);
+    filter: blur(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   line-fill — Linia wypelniajaca sie od gory w dol (GettingStarted step line).
+   transform-origin: top. Duration: 800ms ease-out.
+   -------------------------------------------------------------------------- */
+@keyframes line-fill {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ghost-number-reveal — Ghost number (duzy numer w tle kroku) pojawia sie
+   z opacity 0 -> 0.08 (peak) -> 0.04 (docelowe).
+   Uzycie: .step[data-scroll-reveal]::before z animation-timeline: view().
+   Duration: 800ms ease.
+   -------------------------------------------------------------------------- */
+@keyframes ghost-number-reveal {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0.08;
+  }
+  100% {
+    opacity: 0.04;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   scroll-reveal-scale — Reveal z translateY + scale (secondary FeaturesGrid).
+   Duration: 600ms ease.
+   -------------------------------------------------------------------------- */
+@keyframes scroll-reveal-scale {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   pillar-glow — Glow pseudo-element opacity na FeaturesGrid kartach.
+   Animuje opacity pseudo-elementu ::after zamiast border-top-color (paint).
+   Duration: 1s ease.
+   -------------------------------------------------------------------------- */
+@keyframes pillar-glow {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   glow-sweep — Swiatlo przesuwajace sie po border-top (Ecosystem karty).
+   background-position animowany na linear-gradient z orange highlight.
+   Duration: 1.2s ease.
+   -------------------------------------------------------------------------- */
+@keyframes glow-sweep {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   faq-border-flash — Krotki flash pseudo-elementu ::before na FAQ item.
+   Animuje opacity pseudo-elementu zamiast border-left-color (paint).
+   Duration: 800ms ease.
+   -------------------------------------------------------------------------- */
+@keyframes faq-border-flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   5c. SCROLL-REVEAL UTILITY CLASSES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   [data-scroll-reveal] — Scroll-driven reveal, CSS-only.
+   Uzywa animation-timeline: view() dla natywnego scroll-linked animation.
+   Fallback: IntersectionObserver dodaje .scroll-reveal-visible w JS.
+
+   Stagger: ustaw --i custom property na kolejnych elementach:
+     <div data-scroll-reveal style="--i: 0">...</div>
+     <div data-scroll-reveal style="--i: 1">...</div>
+     <div data-scroll-reveal style="--i: 2">...</div>
+   -------------------------------------------------------------------------- */
+[data-scroll-reveal] {
+  animation: scroll-reveal-up 600ms ease both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+  animation-timeline: view();
+  animation-range: entry 0% entry 60%;
+}
+
+/* --------------------------------------------------------------------------
+   .scroll-reveal-visible — Fallback klasa dodawana przez IntersectionObserver
+   gdy animation-timeline: view() nie jest wspierane.
+   IO callback: element.classList.add('scroll-reveal-visible')
+   -------------------------------------------------------------------------- */
+.scroll-reveal-visible {
+  animation: scroll-reveal-up 600ms ease both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+/* ==========================================================================
    6. PREFERS-REDUCED-MOTION — Jedna regula na koncu
    WSZYSTKIE bridge animacje wylaczone / zredukowane do 0.01ms
    ========================================================================== */
@@ -695,7 +875,7 @@
   .bridge-world-sql::before,
   .bridge-corridor::after,
   .bridge-particle,
-  [class*="bridge-diagram__zone"]::before {
+  [class*="bridge-diagram__segment"] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
@@ -715,6 +895,39 @@
   [class*="bridge-node"] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  /* --- Scroll-reveal & section animations: final state natychmiast --- */
+  [data-scroll-reveal],
+  .scroll-reveal-visible {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Pillar glow pseudo-element: show at resting opacity */
+  .bridge-pillar::after {
+    animation: none !important;
+    opacity: 0.4 !important;
+  }
+
+  /* FAQ border-flash pseudo-element: hide (flash = transient) */
+  .faq-item::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Ghost numbers: show immediately at final opacity */
+  [data-scroll-reveal]::before {
+    animation: none !important;
+    opacity: 0.04 !important;
+  }
+
+  /* Step line: show filled immediately */
+  .step__line {
+    animation: none !important;
+    transform: scaleY(1) !important;
   }
 }
 
