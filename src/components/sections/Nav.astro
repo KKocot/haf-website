@@ -1,6 +1,5 @@
 ---
 import { navLinks, externalLinks } from "../../config/links";
-import Button from "../ui/Button.astro";
 import MobileMenu from "../islands/MobileMenu";
 ---
 
@@ -25,13 +24,23 @@ import MobileMenu from "../islands/MobileMenu";
 
     <!-- Desktop CTA -->
     <div class="haf-nav__actions">
-      <Button
-        variant="gradient"
-        size="sm"
-        href="#getting-started"
+      <a
+        href={externalLinks.gitlab}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="HAF on GitLab"
+        class="haf-nav__gitlab"
       >
-        Get Started
-      </Button>
+        <svg width="24" height="24" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M190 353.2L253.3 158.8H126.7L190 353.2Z" fill="#E24329"/>
+          <path d="M190 353.2L126.7 158.8H24.7L190 353.2Z" fill="#FC6D26"/>
+          <path d="M24.7 158.8L5.1 219.1C3.3 224.7 5.2 230.8 10 234.3L190 353.2L24.7 158.8Z" fill="#FCA326"/>
+          <path d="M24.7 158.8H126.7L83.4 25.7C81.4 19.8 73 19.8 71 25.7L24.7 158.8Z" fill="#E24329"/>
+          <path d="M190 353.2L253.3 158.8H355.3L190 353.2Z" fill="#FC6D26"/>
+          <path d="M355.3 158.8L374.9 219.1C376.7 224.7 374.8 230.8 370 234.3L190 353.2L355.3 158.8Z" fill="#FCA326"/>
+          <path d="M355.3 158.8H253.3L296.6 25.7C298.6 19.8 307 19.8 309 25.7L355.3 158.8Z" fill="#E24329"/>
+        </svg>
+      </a>
     </div>
 
     <!-- Mobile hamburger -->
@@ -177,5 +186,21 @@ import MobileMenu from "../islands/MobileMenu";
       align-items: center;
       gap: var(--space-3);
     }
+  }
+
+  .haf-nav__gitlab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .haf-nav__gitlab:hover {
+    color: var(--color-primary);
+  }
+
+  .haf-nav__gitlab svg {
+    display: block;
   }
 </style>
