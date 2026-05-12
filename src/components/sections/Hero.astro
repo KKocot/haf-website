@@ -128,7 +128,7 @@ LIMIT 5;`;
   }
 
   .haf-hero__split-bridge {
-    height: 6px;
+    height: 48px;
     flex-shrink: 0;
   }
 
@@ -181,7 +181,11 @@ LIMIT 5;`;
 
   @media (max-width: 1023px) {
     .haf-hero__node {
-      opacity: 0.15;
+      opacity: 0.2;
+      width: 10px;
+      height: 10px;
+      animation-timing-function: ease-in-out;
+      animation-duration: 5s;
     }
   }
 
@@ -231,6 +235,50 @@ LIMIT 5;`;
     .haf-hero__sql-row {
       display: none;
     }
+
+    .haf-hero__split-bridge {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .haf-hero__split-bridge::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 80% 100% at 50% 50%,
+        rgba(255, 98, 7, 0.15) 0%,
+        transparent 70%
+      );
+      border-top: 1px solid rgba(255, 98, 7, 0.15);
+      border-bottom: 1px solid rgba(255, 98, 7, 0.08);
+      pointer-events: none;
+    }
+
+    .bridge-particle {
+      width: 5px;
+      height: 5px;
+      box-shadow: 0 0 6px 2px rgba(255, 98, 7, 0.3);
+    }
+
+    .bridge-particle::after {
+      width: 12px;
+      height: 1px;
+    }
+
+    .bridge-particle:nth-child(n + 4) {
+      display: none;
+    }
+
+    .haf-hero__terminal {
+      box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .bridge-particle {
+    will-change: transform;
   }
 
   /* --- Central radial glow (replaces sun glow) --- */
