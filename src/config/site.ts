@@ -5,7 +5,7 @@ export const siteConfig = {
     'PostgreSQL-based indexing layer for the Hive blockchain. Build powerful blockchain applications with SQL.',
   url: 'https://haf.openhive.network',
   gitlab: 'https://gitlab.syncad.com/hive/haf',
-  docs: 'https://gitlab.syncad.com/hive/haf/-/tree/develop/docs',
+  docs: 'https://gitlab.syncad.com/hive/haf/-/tree/develop/doc',
   hiveUrl: 'https://hive.io',
   ogImage: '/og-image.svg',
   locale: 'en',

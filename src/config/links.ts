@@ -13,7 +13,7 @@ export const socialLinks = [
 
 export const externalLinks = {
   gitlab: 'https://gitlab.syncad.com/hive/haf',
-  docs: 'https://gitlab.syncad.com/hive/haf/-/tree/develop/docs',
+  docs: 'https://gitlab.syncad.com/hive/haf/-/tree/develop/doc',
   hive: 'https://hive.io',
   docker: 'https://gitlab.syncad.com/hive/haf_api_node',
   hivemind: 'https://gitlab.syncad.com/hive/hivemind',
