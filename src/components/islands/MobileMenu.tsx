@@ -7,6 +7,7 @@ interface Props {
 
 export default function MobileMenu({ links }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -60,6 +61,15 @@ export default function MobileMenu({ links }: Props) {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  // Sync active section with desktop navbar via CustomEvent
+  useEffect(() => {
+    const handler = (e: CustomEvent<{ href: string }>) =>
+      setActiveSection(e.detail.href);
+    window.addEventListener("section-change", handler as EventListener);
+    return () =>
+      window.removeEventListener("section-change", handler as EventListener);
+  }, []);
 
   return (
     <div className="lg:hidden">
@@ -145,33 +155,43 @@ export default function MobileMenu({ links }: Props) {
             gap: "var(--space-1)",
           }}
         >
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => close()}
-              style={{
-                display: "block",
-                padding: "var(--space-3) var(--space-4)",
-                borderRadius: "var(--radius-md)",
-                color: "var(--color-text-muted)",
-                textDecoration: "none",
-                fontSize: "var(--text-sm)",
-                fontWeight: "var(--font-weight-medium)",
-                transition: "color var(--transition-fast), background-color var(--transition-fast)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--color-text)";
-                e.currentTarget.style.backgroundColor = "var(--color-bg-surface-hover)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--color-text-muted)";
-                e.currentTarget.style.backgroundColor = "transparent";
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) => {
+            const isActive = activeSection === link.href;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => close()}
+                aria-current={isActive ? "true" : undefined}
+                style={{
+                  display: "block",
+                  padding: "var(--space-3) var(--space-4)",
+                  borderRadius: "var(--radius-md)",
+                  color: isActive
+                    ? "var(--color-primary)"
+                    : "var(--color-text-muted)",
+                  textDecoration: "none",
+                  fontSize: "var(--text-sm)",
+                  fontWeight: "var(--font-weight-medium)",
+                  transition:
+                    "color var(--transition-fast), background-color var(--transition-fast)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--color-text)";
+                  e.currentTarget.style.backgroundColor =
+                    "var(--color-bg-surface-hover)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = isActive
+                    ? "var(--color-primary)"
+                    : "var(--color-text-muted)";
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
       )}
     </div>

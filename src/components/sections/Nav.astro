@@ -66,6 +66,55 @@ import MobileMenu from "../islands/MobileMenu";
     );
     observer.observe(hero);
   }
+
+  // IntersectionObserver: active section highlighting in navbar
+  const sectionIds = ['features', 'architecture', 'ecosystem', 'getting-started', 'faq'];
+  const navLinks = nav?.querySelectorAll<HTMLAnchorElement>('.haf-nav__link');
+  const ACTIVE_CLASS = 'haf-nav__link--active';
+
+  function setActiveLink(href: string | null) {
+    navLinks?.forEach((link) => {
+      link.classList.remove(ACTIVE_CLASS);
+      link.removeAttribute('aria-current');
+    });
+
+    if (href) {
+      const activeLink = nav?.querySelector<HTMLAnchorElement>(`.haf-nav__link[href="${href}"]`);
+      if (activeLink) {
+        activeLink.classList.add(ACTIVE_CLASS);
+        activeLink.setAttribute('aria-current', 'true');
+      }
+    }
+
+    window.dispatchEvent(new CustomEvent('section-change', { detail: { href } }));
+  }
+
+  if (nav && navLinks?.length) {
+    const activeSections = new Set<string>();
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (entry.isIntersecting) {
+            activeSections.add(id);
+          } else {
+            activeSections.delete(id);
+          }
+        });
+
+        // Pick the first visible section in DOM order
+        const currentId = sectionIds.find((id) => activeSections.has(id));
+        setActiveLink(currentId ? `#${currentId}` : null);
+      },
+      { threshold: 0.3, rootMargin: '-64px 0px 0px 0px' }
+    );
+
+    sectionIds.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) sectionObserver.observe(section);
+    });
+  }
 </script>
 
 <style>
@@ -171,6 +220,16 @@ import MobileMenu from "../islands/MobileMenu";
   .haf-nav__link:hover {
     color: var(--color-text);
     background-color: var(--color-primary-ghost);
+  }
+
+  .haf-nav__link:global(.haf-nav__link--active) {
+    color: var(--color-primary);
+    background-color: var(--color-primary-ghost);
+    box-shadow: inset 0 -2px 0 var(--color-primary);
+  }
+
+  .haf-nav__link:global(.haf-nav__link--active):hover {
+    color: var(--color-primary-bright);
   }
 
   /* --- Desktop actions --- */
