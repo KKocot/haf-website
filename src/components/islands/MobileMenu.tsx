@@ -3,9 +3,10 @@ import type { navLinks } from "../../config/links";
 
 interface Props {
   links: typeof navLinks;
+  gitlabUrl: string;
 }
 
-export default function MobileMenu({ links }: Props) {
+export default function MobileMenu({ links, gitlabUrl }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const menuRef = useRef<HTMLDivElement>(null);
@@ -192,6 +193,61 @@ export default function MobileMenu({ links }: Props) {
               </a>
             );
           })}
+
+          <div
+            style={{
+              borderTop: "1px solid var(--color-border)",
+              marginTop: "var(--space-2)",
+              paddingTop: "var(--space-2)",
+            }}
+          >
+            <a
+              href={gitlabUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="HAF on GitLab"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "var(--space-3)",
+                padding: "var(--space-3) var(--space-4)",
+                borderRadius: "var(--radius-md)",
+                color: "var(--color-text-muted)",
+                textDecoration: "none",
+                fontSize: "var(--text-sm)",
+                fontWeight: "var(--font-weight-medium)",
+                transition:
+                  "color var(--transition-fast), background-color var(--transition-fast)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--color-text)";
+                e.currentTarget.style.backgroundColor =
+                  "var(--color-bg-surface-hover)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--color-text-muted)";
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 380 380"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path d="M190 353.2L253.3 158.8H126.7L190 353.2Z" fill="#E24329" />
+                <path d="M190 353.2L126.7 158.8H24.7L190 353.2Z" fill="#FC6D26" />
+                <path d="M24.7 158.8L5.1 219.1C3.3 224.7 5.2 230.8 10 234.3L190 353.2L24.7 158.8Z" fill="#FCA326" />
+                <path d="M24.7 158.8H126.7L83.4 25.7C81.4 19.8 73 19.8 71 25.7L24.7 158.8Z" fill="#E24329" />
+                <path d="M190 353.2L253.3 158.8H355.3L190 353.2Z" fill="#FC6D26" />
+                <path d="M355.3 158.8L374.9 219.1C376.7 224.7 374.8 230.8 370 234.3L190 353.2L355.3 158.8Z" fill="#FCA326" />
+                <path d="M355.3 158.8H253.3L296.6 25.7C298.6 19.8 307 19.8 309 25.7L355.3 158.8Z" fill="#E24329" />
+              </svg>
+              GitLab
+            </a>
+          </div>
         </nav>
       )}
     </div>
