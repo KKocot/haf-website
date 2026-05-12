@@ -755,24 +755,6 @@
 }
 
 /* --------------------------------------------------------------------------
-   ghost-number-reveal — Ghost number (duzy numer w tle kroku) pojawia sie
-   z opacity 0 -> 0.08 (peak) -> 0.04 (docelowe).
-   Uzycie: .step[data-scroll-reveal]::before z animation-timeline: view().
-   Duration: 800ms ease.
-   -------------------------------------------------------------------------- */
-@keyframes ghost-number-reveal {
-  0% {
-    opacity: 0;
-  }
-  60% {
-    opacity: 0.08;
-  }
-  100% {
-    opacity: 0.04;
-  }
-}
-
-/* --------------------------------------------------------------------------
    scroll-reveal-scale — Reveal z translateY + scale (secondary FeaturesGrid).
    Duration: 600ms ease.
    -------------------------------------------------------------------------- */
@@ -916,12 +898,6 @@
   .faq-item::before {
     animation: none !important;
     opacity: 0 !important;
-  }
-
-  /* Ghost numbers: show immediately at final opacity */
-  [data-scroll-reveal]::before {
-    animation: none !important;
-    opacity: 0.04 !important;
   }
 
   /* Step line: show filled immediately */

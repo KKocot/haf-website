@@ -62,7 +62,6 @@ ORDER BY block_num DESC LIMIT 10;`,
         steps.map((step, i) => (
           <div
             class="step"
-            data-step={step.number}
             data-scroll-reveal
             style={`--i: ${i}`}
           >
@@ -147,27 +146,6 @@ ORDER BY block_num DESC LIMIT 10;`,
     position: relative;
     display: flex;
     gap: var(--space-6);
-  }
-
-  .step::before {
-    content: attr(data-step);
-    position: absolute;
-    top: -0.5rem;
-    left: -0.5rem;
-    font-family: var(--font-mono);
-    font-size: 6rem;
-    font-weight: var(--font-weight-extrabold);
-    color: var(--color-text-bright);
-    opacity: 0.04;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  @media (min-width: 768px) {
-    .step::before {
-      left: -1rem;
-    }
   }
 
   /* --- Left indicator column --- */
@@ -255,23 +233,6 @@ ORDER BY block_num DESC LIMIT 10;`,
   .scroll-reveal-visible .step__line,
   .step.scroll-reveal-visible .step__line {
     animation: line-fill 800ms ease-out both;
-  }
-
-  /* --- Ghost numbers: animate opacity on reveal --- */
-
-  .step::before {
-    opacity: 0;
-    transition: opacity 600ms ease;
-  }
-
-  .step[data-scroll-reveal]::before {
-    animation: ghost-number-reveal 800ms ease both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 60%;
-  }
-
-  .step.scroll-reveal-visible::before {
-    animation: ghost-number-reveal 800ms ease both;
   }
 
   /* --- CTA --- */
