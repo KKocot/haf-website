@@ -2,247 +2,91 @@
 import { externalLinks } from "../../config/links";
 import { siteConfig } from "../../config/site";
 
-const resourceLinks = [
-  { label: "Documentation", href: externalLinks.docs },
-  { label: "GitLab Repository", href: externalLinks.gitlab },
-  { label: "HAF API Node", href: externalLinks.docker },
-  { label: "HAfAH", href: "https://gitlab.syncad.com/hive/HAfAH" },
-];
-
-const ecosystemLinks = [
-  { label: "Hive.io", href: externalLinks.hive },
-  { label: "Hivemind", href: externalLinks.hivemind },
-  { label: "Block Explorer", href: "https://explore.openhive.network" },
-  { label: "Hive.blog", href: "https://hive.blog" },
-];
-
-const communityLinks = [
-  {
-    label: "GitLab Issues",
-    href: "https://gitlab.syncad.com/hive/haf/-/issues",
-  },
-  { label: "Hive Developers", href: "https://developers.hive.io" },
-];
+const currentYear = new Date().getFullYear();
 ---
 
-<footer class="haf-footer" role="contentinfo">
-  <div class="container">
-    <div class="haf-footer__grid">
-      <!-- Col 1: Brand -->
-      <div class="haf-footer__brand">
-        <div class="haf-footer__logo">
-          <span class="haf-footer__logo-mark">{siteConfig.name}</span>
-          <span class="haf-footer__logo-full">{siteConfig.fullName}</span>
-        </div>
-        <p class="haf-footer__tagline">
-          Open-source blockchain indexing infrastructure
-        </p>
-      </div>
-
-      <!-- Col 2: Resources -->
-      <nav class="haf-footer__nav" aria-label="Resources">
-        <h3 class="haf-footer__heading">Resources</h3>
-        <ul class="haf-footer__list" role="list">
-          {
-            resourceLinks.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="haf-footer__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-
-      <!-- Col 3: Ecosystem -->
-      <nav class="haf-footer__nav" aria-label="Ecosystem">
-        <h3 class="haf-footer__heading">Ecosystem</h3>
-        <ul class="haf-footer__list" role="list">
-          {
-            ecosystemLinks.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="haf-footer__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-
-      <!-- Col 4: Community -->
-      <nav class="haf-footer__nav" aria-label="Community">
-        <h3 class="haf-footer__heading">Community</h3>
-        <ul class="haf-footer__list" role="list">
-          {
-            communityLinks.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="haf-footer__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-    </div>
-
-    <!-- Bottom bar -->
-    <div class="haf-footer__bottom">
-      <p class="haf-footer__built">
-        Built for the <span class="haf-footer__hive">Hive</span> blockchain
-      </p>
-      <p class="haf-footer__copy">&copy; {new Date().getFullYear()} Hive</p>
-    </div>
+<footer class="tmux-status" role="contentinfo">
+  <div class="tmux-status__bar">
+    <a
+      href={externalLinks.gitlab}
+      class="tmux-status__link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="GitLab repository — opens in new tab"
+    >GitLab</a
+    ><span class="tmux-status__sep" aria-hidden="true">│</span><a
+      href={externalLinks.docs}
+      class="tmux-status__link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Documentation — opens in new tab"
+    >Documentation</a
+    ><span class="tmux-status__sep" aria-hidden="true">│</span><a
+      href={externalLinks.hive}
+      class="tmux-status__link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Hive.io — opens in new tab"
+    >Hive.io</a
+    ><span class="tmux-status__sep" aria-hidden="true">│</span><span
+      class="tmux-status__segment"
+    >&copy; {currentYear} {siteConfig.name}</span>
   </div>
 </footer>
 
 <style>
-  .haf-footer {
-    border-top: 1px solid transparent;
-    border-image: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 98, 7, 0.3),
-      transparent
-    ) 1;
+  .tmux-status {
     background-color: var(--color-bg-darkest);
-    padding-block: var(--space-16);
-  }
-
-  .haf-footer__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-10);
-  }
-
-  @media (min-width: 640px) {
-    .haf-footer__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .haf-footer__grid {
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: var(--space-12);
-    }
-  }
-
-  /* --- Brand column --- */
-
-  .haf-footer__brand {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .haf-footer__logo {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-3);
-  }
-
-  .haf-footer__logo-mark {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-primary);
-    letter-spacing: var(--tracking-tight);
-  }
-
-  .haf-footer__logo-full {
-    font-size: var(--text-sm);
-    color: var(--color-text-subtle);
-  }
-
-  .haf-footer__tagline {
-    margin: 0;
-    font-size: var(--text-sm);
-    line-height: var(--leading-normal);
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
     color: var(--color-text-muted);
-    max-width: 28ch;
+    line-height: 1;
   }
 
-  /* --- Nav columns --- */
-
-  .haf-footer__heading {
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-bright);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    margin-bottom: var(--space-4);
-  }
-
-  .haf-footer__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  .tmux-status__bar {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: var(--space-3) var(--space-4);
+    min-height: 2rem;
   }
 
-  .haf-footer__link {
-    font-size: var(--text-sm);
+  .tmux-status__segment {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .tmux-status__sep {
+    color: var(--color-text-subtle);
+    padding-inline: var(--space-2);
+    user-select: none;
+  }
+
+  .tmux-status__link {
     color: var(--color-text-muted);
     text-decoration: none;
-    transition:
-      color var(--transition-fast),
-      text-decoration var(--transition-fast);
+    white-space: nowrap;
+    transition: color var(--transition-fast);
   }
 
-  .haf-footer__link:hover {
-    color: var(--color-text);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+  .tmux-status__link:hover,
+  .tmux-status__link:focus-visible {
+    color: var(--color-primary-bright);
   }
 
-  /* --- Bottom bar --- */
-
-  .haf-footer__bottom {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    align-items: center;
-    margin-top: var(--space-12);
-    padding-top: var(--space-8);
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  .tmux-status__link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
   }
 
-  @media (min-width: 640px) {
-    .haf-footer__bottom {
-      flex-direction: row;
-      justify-content: space-between;
+  @media (max-width: 40rem) {
+    .tmux-status__bar {
+      padding: var(--space-2) var(--space-3);
     }
-  }
-
-  .haf-footer__built,
-  .haf-footer__copy {
-    margin: 0;
-    font-size: var(--text-sm);
-    color: var(--color-text-subtle);
-  }
-
-  .haf-footer__hive {
-    color: var(--color-hive);
-    font-weight: var(--font-weight-semibold);
   }
 </style>
