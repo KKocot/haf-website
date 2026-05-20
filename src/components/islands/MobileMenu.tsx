@@ -217,16 +217,21 @@ export default function MobileMenu({ links, gitlabUrl }: Props) {
                 fontSize: "var(--text-sm)",
                 fontWeight: "var(--font-weight-medium)",
                 transition:
-                  "color var(--transition-fast), background-color var(--transition-fast)",
+                  "color var(--transition-fast), background-color var(--transition-fast), transform 0.2s ease, filter 0.2s ease",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = "var(--color-text)";
                 e.currentTarget.style.backgroundColor =
                   "var(--color-bg-surface-hover)";
+                e.currentTarget.style.transform = "scale(1.1)";
+                e.currentTarget.style.filter =
+                  "drop-shadow(0 0 6px rgba(252, 109, 38, 0.5))";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.color = "var(--color-text-muted)";
                 e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.filter = "none";
               }}
             >
               <svg

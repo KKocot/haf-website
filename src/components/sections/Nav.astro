@@ -68,7 +68,7 @@ import MobileMenu from "../islands/MobileMenu";
   }
 
   // IntersectionObserver: active section highlighting in navbar
-  const sectionIds = ['features', 'architecture', 'ecosystem', 'getting-started', 'faq'];
+  const sectionIds = ['features', 'architecture', 'ecosystem', 'getting-started'];
   const navLinks = nav?.querySelectorAll<HTMLAnchorElement>('.haf-nav__link');
   const ACTIVE_CLASS = 'haf-nav__link--active';
 
@@ -252,11 +252,16 @@ import MobileMenu from "../islands/MobileMenu";
     align-items: center;
     justify-content: center;
     color: var(--color-text-muted);
-    transition: color var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      transform 0.2s ease,
+      filter 0.2s ease;
   }
 
   .haf-nav__gitlab:hover {
     color: var(--color-primary);
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 6px rgba(252, 109, 38, 0.5));
   }
 
   .haf-nav__gitlab svg {
