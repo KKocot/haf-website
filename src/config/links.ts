@@ -3,7 +3,6 @@ export const navLinks = [
   { label: 'Architecture', href: '#architecture' },
   { label: 'Ecosystem', href: '#ecosystem' },
   { label: 'Get Started', href: '#getting-started' },
-  { label: 'FAQ', href: '#faq' },
 ] as const;
 
 export const socialLinks = [
