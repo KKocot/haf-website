@@ -1,89 +1,89 @@
 ---
 import SectionHeading from "../ui/SectionHeading.astro";
-import Card from "../ui/Card.astro";
 
 const projects = [
   {
     name: "Hivemind",
     description:
       "Social networking layer for Hive. Indexes posts, comments, votes, and follows for community applications.",
-    link: "https://gitlab.syncad.com/hive/hivemind",
+    repo: "https://gitlab.syncad.com/hive/hivemind",
   },
   {
     name: "HAF API Node",
     description:
       "Complete deployment solution for HAF with Docker Compose. Includes pgAdmin, pgHero, and monitoring.",
-    link: "https://gitlab.syncad.com/hive/haf_api_node",
+    repo: "https://gitlab.syncad.com/hive/haf_api_node",
   },
   {
     name: "HAfAH",
     description:
-      "REST API serving account history, transaction lookups, and block data from HAF's PostgreSQL tables.",
-    link: "https://gitlab.syncad.com/hive/HAfAH",
+      "REST API serving account history, transaction lookups, and block data from HAF’s PostgreSQL tables.",
+    repo: "https://gitlab.syncad.com/hive/HAfAH",
+    website: "https://hafah-website.vercel.app",
   },
   {
     name: "Balance Tracker",
     description:
       "Real-time HIVE and HBD balance tracking with historical data. Tracks all transfer operations.",
-    link: "https://gitlab.syncad.com/hive/balance_tracker",
+    repo: "https://gitlab.syncad.com/hive/balance_tracker",
+    website: "https://balance-tracker-landing.vercel.app",
   },
   {
     name: "Reputation Tracker",
     description:
       "Tracks Hive account reputation scores by indexing vote operations and computing live reputation values.",
-    link: "https://gitlab.syncad.com/hive/reputation_tracker",
+    repo: "https://gitlab.syncad.com/hive/reputation_tracker",
   },
   {
-    name: "Block Explorer",
+    name: "HAfBE",
     description:
-      "Browse blocks, transactions, and operations on Hive. Reads directly from HAF tables for real-time data.",
-    link: "https://gitlab.syncad.com/hive/block_explorer_ui",
+      "Backend engine powering the Block Explorer. Serves blocks, transactions, and operations via API from HAF tables.",
+    repo: "https://gitlab.syncad.com/hive/haf_block_explorer",
+    website: "https://hafbe-website.vercel.app",
   },
 ];
 ---
 
 <section id="ecosystem" class="section-padding ecosystem-section section-divider" aria-labelledby="ecosystem-heading">
   <div class="container">
-    <SectionHeading
-      id="ecosystem-heading"
-      badge="Beyond the Bridge"
-      title="What awaits across the bridge"
-      subtitle="These apps run on HAF in production, serving the Hive network daily."
-      data-scroll-reveal
-    />
+    <div class="eco-heading-wrap">
+      <SectionHeading
+        id="ecosystem-heading"
+        badge="Beyond the Bridge"
+        title="What awaits across the bridge"
+        subtitle="These apps run on HAF in production, serving the Hive network daily."
+        align="center"
+        data-scroll-reveal
+      />
+    </div>
 
     <div class="eco-grid">
       {
         projects.map((project, index) => (
-          <Card class="eco-card" data-scroll-reveal style={`--i: ${index}`}>
-            <h3 class="eco-card__name">{project.name}</h3>
-            <p class="eco-card__desc">{project.description}</p>
-            {project.link && (
+          <article class="eco-item" data-scroll-reveal style={`--i: ${index}`}>
+            <h3 class="eco-item__name">{project.name}</h3>
+            <p class="eco-item__desc">{project.description}</p>
+            <div class="eco-item__links">
               <a
-                href={project.link}
-                class="eco-card__link"
+                href={project.repo}
+                class="eco-item__link"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                View repository
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M3 8.5h8.5m0 0L8 5m3.5 3.5L8 12"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                Repository&thinsp;&rarr;
               </a>
-            )}
-          </Card>
+              {project.website && (
+                <a
+                  href={project.website}
+                  class="eco-item__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Website&thinsp;&rarr;
+                </a>
+              )}
+            </div>
+          </article>
         ))
       }
     </div>
@@ -96,10 +96,14 @@ const projects = [
     background: var(--color-bg);
   }
 
+  /* ----------------------------------------------------------------
+     Grid — 1 col mobile, 2 col desktop
+     ---------------------------------------------------------------- */
+
   .eco-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-6);
+    gap: 0;
   }
 
   @media (min-width: 768px) {
@@ -108,109 +112,96 @@ const projects = [
     }
   }
 
-  @media (min-width: 1024px) {
-    .eco-grid {
-      grid-template-columns: repeat(3, 1fr);
+  /* ----------------------------------------------------------------
+     Item
+     ---------------------------------------------------------------- */
+
+  .eco-item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    .eco-item {
+      padding: var(--space-10) var(--space-8) var(--space-10) 0;
+    }
+
+    /* Right column items get left padding for visual separation */
+    .eco-item:nth-child(even) {
+      padding-left: var(--space-8);
+      padding-right: 0;
+    }
+
+    /* Vertical separator between columns via border on even items */
+    .eco-item:nth-child(even) {
+      border-left: 1px solid var(--color-border);
     }
   }
 
-  /* --- Card overrides --- */
-
-  .eco-card {
-    position: relative;
-    border-top: 1px solid rgba(255, 98, 7, 0.2);
-    overflow: hidden;
-  }
-
-  /* Stagger override: 100ms per card instead of global 80ms */
-  .eco-card:global([data-scroll-reveal]) {
+  /* Stagger reveal */
+  .eco-item:global([data-scroll-reveal]) {
     animation-delay: calc(var(--i, 0) * 100ms);
   }
 
-  /* --- Glow sweep pseudo-element on border-top --- */
+  /* ----------------------------------------------------------------
+     Content
+     ---------------------------------------------------------------- */
 
-  .eco-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 98, 7, 0.6) 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    background-position: -200% center;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .eco-card:global([data-scroll-reveal])::before {
-    animation: glow-sweep 1.2s ease both;
-    animation-delay: calc(var(--i, 0) * 100ms + 200ms);
-    animation-timeline: view();
-    animation-range: entry 0% entry 60%;
-  }
-
-  :global(.scroll-reveal-visible).eco-card::before {
-    animation: glow-sweep 1.2s ease both;
-    animation-delay: calc(var(--i, 0) * 100ms + 200ms);
-  }
-
-  /* --- Card internals --- */
-
-  .eco-card__name {
+  .eco-item__name {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-sans);
     font-size: var(--text-xl);
     font-weight: var(--font-weight-semibold);
     line-height: var(--leading-snug);
     color: var(--color-text-bright);
-    margin-bottom: var(--space-3);
   }
 
-  .eco-card__desc {
-    margin: 0;
+  .eco-item__desc {
+    margin: 0 0 var(--space-3);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
     color: var(--color-text-muted);
+    max-width: 38ch;
   }
 
-  .eco-card__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-top: var(--space-4);
+  /* ----------------------------------------------------------------
+     Link — dashed underline editorial style
+     ---------------------------------------------------------------- */
+
+  .eco-item__links {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .eco-item__link {
+    display: inline-block;
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-primary);
     text-decoration: none;
+    border-bottom: 1px dashed var(--color-primary);
+    padding-bottom: 1px;
     transition:
       color var(--transition-fast),
-      text-decoration var(--transition-fast);
+      border-color var(--transition-fast);
   }
 
-  .eco-card__link:hover {
+  .eco-item__link:hover {
     color: var(--color-primary-bright);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--color-primary-bright);
   }
 
-  .eco-card__link svg {
-    transition: transform var(--transition-fast);
-  }
-
-  .eco-card__link:hover svg {
-    transform: translateX(3px);
-  }
-
-  /* --- Reduced motion: disable glow sweep --- */
+  /* ----------------------------------------------------------------
+     Reduced motion
+     ---------------------------------------------------------------- */
 
   @media (prefers-reduced-motion: reduce) {
-    .eco-card::before {
-      animation: none !important;
-      background-position: -200% center;
+    .eco-item:global([data-scroll-reveal]) {
+      animation-delay: 0ms !important;
     }
   }
 </style>
