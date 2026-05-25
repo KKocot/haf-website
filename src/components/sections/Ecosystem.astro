@@ -18,7 +18,7 @@ const projects = [
   {
     name: "HAfAH",
     description:
-      "API framework built on HAF providing REST endpoints for blockchain data queries.",
+      "REST API serving account history, transaction lookups, and block data from HAF's PostgreSQL tables.",
     link: "https://gitlab.syncad.com/hive/HAfAH",
   },
   {
@@ -30,25 +30,25 @@ const projects = [
   {
     name: "Reputation Tracker",
     description:
-      "Decentralized reputation scoring system built on HAF.",
+      "Tracks Hive account reputation scores by indexing vote operations and computing live reputation values.",
     link: "https://gitlab.syncad.com/hive/reputation_tracker",
   },
   {
     name: "Block Explorer",
     description:
-      "Blockchain explorer application powered by HAF SQL queries.",
+      "Browse blocks, transactions, and operations on Hive. Reads directly from HAF tables for real-time data.",
     link: "https://gitlab.syncad.com/hive/block_explorer_ui",
   },
 ];
 ---
 
-<section id="ecosystem" class="section-padding ecosystem-section" aria-labelledby="ecosystem-heading">
+<section id="ecosystem" class="section-padding ecosystem-section section-divider" aria-labelledby="ecosystem-heading">
   <div class="container">
     <SectionHeading
       id="ecosystem-heading"
       badge="Beyond the Bridge"
       title="What awaits across the bridge"
-      subtitle="Production apps already crossing the bridge — from raw blockchain to real-world use."
+      subtitle="These apps run on HAF in production, serving the Hive network daily."
       data-scroll-reveal
     />
 
@@ -94,22 +94,6 @@ const projects = [
   .ecosystem-section {
     position: relative;
     background: var(--color-bg);
-  }
-
-  .ecosystem-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.06),
-      transparent
-    );
   }
 
   .eco-grid {

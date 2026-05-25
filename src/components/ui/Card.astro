@@ -1,19 +1,14 @@
 ---
 interface Props {
-  glow?: boolean;
   class?: string;
   "data-scroll-reveal"?: boolean;
   style?: string;
 }
 
-const { glow = false, class: className, style, ...attrs } = Astro.props;
+const { class: className, style, ...attrs } = Astro.props;
 ---
 
-<article
-  class:list={["haf-card", { "haf-card--glow": glow }, className]}
-  style={style}
-  {...attrs}
->
+<article class:list={["haf-card", className]} style={style} {...attrs}>
   <slot />
 </article>
 
@@ -31,15 +26,5 @@ const { glow = false, class: className, style, ...attrs } = Astro.props;
   .haf-card:hover {
     border-color: var(--color-border-card-hover);
     box-shadow: inset 0 1px 0 rgba(255, 98, 7, 0.15);
-  }
-
-  /* --- Glow variant --- */
-
-  .haf-card--glow {
-    box-shadow: inset 0 1px 0 rgba(255, 98, 7, 0.08);
-  }
-
-  .haf-card--glow:hover {
-    box-shadow: inset 0 1px 0 rgba(255, 98, 7, 0.2);
   }
 </style>

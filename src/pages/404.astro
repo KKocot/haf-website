@@ -3,29 +3,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="404 — Page Not Found" description="The page you are looking for does not exist.">
-  <main
-    id="main"
-    class="min-h-screen flex flex-col items-center justify-center gap-[var(--space-6)] px-[var(--space-4)]"
-  >
-    <p
-      class="text-[var(--text-7xl)] font-[var(--font-weight-extrabold)] leading-[var(--leading-tight)] gradient-text"
-    >
-      404
-    </p>
-    <h1
-      class="text-[var(--text-2xl)] font-[var(--font-weight-semibold)] text-[var(--color-text)]"
-    >
-      Page Not Found
-    </h1>
-    <p
-      class="text-[var(--color-text-muted)] text-center max-w-md leading-[var(--leading-normal)]"
-    >
+  <main id="main" class="error-page">
+    <p class="error-code gradient-text">404</p>
+
+    <h1 class="error-heading">Page Not Found</h1>
+
+    <p class="error-message">
       The page you are looking for does not exist or has been moved.
     </p>
-    <a
-      href="/"
-      class="inline-flex items-center gap-[var(--space-2)] px-[var(--space-6)] py-[var(--space-3)] rounded-[var(--radius-md)] bg-[var(--color-primary)] text-[var(--color-text-on-primary)] text-[var(--text-sm)] font-[var(--font-weight-semibold)] hover:bg-[var(--color-primary-bright)] hover:shadow-[var(--shadow-glow-sm)] transition-all duration-150 ease-out active:translate-y-px"
-    >
+
+    <a href="/" class="error-link">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -45,3 +32,57 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </a>
   </main>
 </BaseLayout>
+
+<style>
+  .error-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-6);
+    padding-inline: var(--space-4);
+  }
+
+  .error-code {
+    font-size: var(--text-7xl);
+    font-weight: var(--font-weight-extrabold);
+    line-height: var(--leading-tight);
+  }
+
+  .error-heading {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+
+  .error-message {
+    color: var(--color-text-muted);
+    text-align: center;
+    max-width: 28rem;
+    line-height: var(--leading-normal);
+  }
+
+  .error-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    background-color: var(--color-primary);
+    color: var(--color-text-on-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: all 150ms ease-out;
+  }
+
+  .error-link:hover {
+    background-color: var(--color-primary-bright);
+    box-shadow: var(--shadow-glow-sm);
+  }
+
+  .error-link:active {
+    transform: translateY(1px);
+  }
+</style>

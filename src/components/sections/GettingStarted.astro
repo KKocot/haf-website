@@ -45,7 +45,7 @@ ORDER BY block_num DESC LIMIT 10;`,
 
 <section
   id="getting-started"
-  class="section-padding"
+  class="section-padding section-divider"
   aria-labelledby="getting-started-heading"
 >
   <div class="container">
@@ -84,7 +84,6 @@ ORDER BY block_num DESC LIMIT 10;`,
 
     <div class="steps__cta">
       <Button
-        variant="gradient"
         href={externalLinks.docs}
         target="_blank"
         rel="noopener noreferrer"
@@ -114,22 +113,6 @@ ORDER BY block_num DESC LIMIT 10;`,
   #getting-started {
     position: relative;
     background: var(--color-bg-subtle);
-  }
-
-  #getting-started::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.06),
-      transparent
-    );
   }
 
   .steps {

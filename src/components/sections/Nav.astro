@@ -191,7 +191,7 @@ import MobileMenu from "../islands/MobileMenu";
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: var(--space-1);
+    gap: var(--space-2);
   }
 
   @media (min-width: 1024px) {
@@ -206,6 +206,7 @@ import MobileMenu from "../islands/MobileMenu";
   .haf-nav__link {
     display: inline-flex;
     align-items: center;
+    position: relative;
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
@@ -213,8 +214,25 @@ import MobileMenu from "../islands/MobileMenu";
     color: var(--color-text-muted);
     text-decoration: none;
     transition:
-      color 0.3s ease-out,
+      color var(--transition-fast),
       background-color var(--transition-fast);
+  }
+
+  .haf-nav__link::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: var(--space-3);
+    right: var(--space-3);
+    height: 2px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition:
+      transform var(--transition-base),
+      opacity var(--transition-base);
+    opacity: 0;
   }
 
   .haf-nav__link:hover {
@@ -222,10 +240,25 @@ import MobileMenu from "../islands/MobileMenu";
     background-color: var(--color-primary-ghost);
   }
 
+  .haf-nav__link:hover::after {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+
   .haf-nav__link:global(.haf-nav__link--active) {
     color: var(--color-primary);
     background-color: var(--color-primary-ghost);
-    box-shadow: inset 0 -2px 0 var(--color-primary);
+  }
+
+  .haf-nav__link:global(.haf-nav__link--active)::after {
+    transform: scaleX(1);
+    opacity: 1;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary),
+      var(--color-primary-bright)
+    );
+    box-shadow: 0 0 8px rgba(255, 98, 7, 0.3);
   }
 
   .haf-nav__link:global(.haf-nav__link--active):hover {

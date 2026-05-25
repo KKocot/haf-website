@@ -80,28 +80,7 @@ export default function MobileMenu({ links, gitlabUrl }: Props) {
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Close menu" : "Open menu"}
         aria-expanded={isOpen}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "2.75rem",
-          height: "2.75rem",
-          padding: 0,
-          border: "1px solid var(--color-border)",
-          borderRadius: "var(--radius-md)",
-          backgroundColor: "transparent",
-          color: "var(--color-text-muted)",
-          cursor: "pointer",
-          transition: "color var(--transition-fast), border-color var(--transition-fast)",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.color = "var(--color-text)";
-          e.currentTarget.style.borderColor = "var(--color-border-bright)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.color = "var(--color-text-muted)";
-          e.currentTarget.style.borderColor = "var(--color-border)";
-        }}
+        className="mobile-menu__toggle"
       >
         {isOpen ? (
           <svg
@@ -142,19 +121,7 @@ export default function MobileMenu({ links, gitlabUrl }: Props) {
         <nav
           ref={menuRef}
           aria-label="Mobile navigation"
-          style={{
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            right: 0,
-            backgroundColor: "var(--color-bg-elevated)",
-            borderBottom: "1px solid var(--color-border)",
-            boxShadow: "var(--shadow-lg)",
-            padding: "var(--space-4)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--space-1)",
-          }}
+          className="mobile-menu__nav"
         >
           {links.map((link) => {
             const isActive = activeSection === link.href;
@@ -164,75 +131,20 @@ export default function MobileMenu({ links, gitlabUrl }: Props) {
                 href={link.href}
                 onClick={() => close()}
                 aria-current={isActive ? "true" : undefined}
-                style={{
-                  display: "block",
-                  padding: "var(--space-3) var(--space-4)",
-                  borderRadius: "var(--radius-md)",
-                  color: isActive
-                    ? "var(--color-primary)"
-                    : "var(--color-text-muted)",
-                  textDecoration: "none",
-                  fontSize: "var(--text-sm)",
-                  fontWeight: "var(--font-weight-medium)",
-                  transition:
-                    "color var(--transition-fast), background-color var(--transition-fast)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--color-text)";
-                  e.currentTarget.style.backgroundColor =
-                    "var(--color-bg-surface-hover)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = isActive
-                    ? "var(--color-primary)"
-                    : "var(--color-text-muted)";
-                  e.currentTarget.style.backgroundColor = "transparent";
-                }}
+                className={`mobile-menu__link${isActive ? " mobile-menu__link--active" : ""}`}
               >
                 {link.label}
               </a>
             );
           })}
 
-          <div
-            style={{
-              borderTop: "1px solid var(--color-border)",
-              marginTop: "var(--space-2)",
-              paddingTop: "var(--space-2)",
-            }}
-          >
+          <div className="mobile-menu__divider">
             <a
               href={gitlabUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="HAF on GitLab"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "var(--space-3)",
-                padding: "var(--space-3) var(--space-4)",
-                borderRadius: "var(--radius-md)",
-                color: "var(--color-text-muted)",
-                textDecoration: "none",
-                fontSize: "var(--text-sm)",
-                fontWeight: "var(--font-weight-medium)",
-                transition:
-                  "color var(--transition-fast), background-color var(--transition-fast), transform 0.2s ease, filter 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--color-text)";
-                e.currentTarget.style.backgroundColor =
-                  "var(--color-bg-surface-hover)";
-                e.currentTarget.style.transform = "scale(1.1)";
-                e.currentTarget.style.filter =
-                  "drop-shadow(0 0 6px rgba(252, 109, 38, 0.5))";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--color-text-muted)";
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.filter = "none";
-              }}
+              className="mobile-menu__gitlab"
             >
               <svg
                 width="20"

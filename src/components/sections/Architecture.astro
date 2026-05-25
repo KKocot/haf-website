@@ -51,7 +51,7 @@ const flowLabels = ["blocks", "push", "read", "query"];
 
 <section
   id="architecture"
-  class="section-padding architecture-section reveal"
+  class="section-padding architecture-section section-divider reveal"
   aria-labelledby="architecture-heading"
 >
   <div class="container">
@@ -139,22 +139,6 @@ const flowLabels = ["blocks", "push", "read", "query"];
   .architecture-section {
     position: relative;
     background: var(--color-bg-subtle);
-  }
-
-  .architecture-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.06),
-      transparent
-    );
   }
 
   /* Bridge Diagram */

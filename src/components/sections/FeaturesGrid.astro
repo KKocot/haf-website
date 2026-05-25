@@ -37,24 +37,24 @@ const features = [
     title: "Docker Deployment",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12.5c0-.28-.22-.5-.5-.5h-2.08c-.09-.7-.27-1.37-.54-2h1.12c.28 0 .5-.22.5-.5s-.22-.5-.5-.5H18.6a7 7 0 0 0-1.74-2.26l1.28-1.28a.5.5 0 0 0-.7-.7L16.14 6A7 7 0 0 0 12 4.5 7 7 0 0 0 5 11.5c0 3.87 3.13 7 7 7s7-3.13 7-7h2.5c.28 0 .5-.22.5-.5z"/><rect x="7" y="8" width="2" height="2" rx="0.5"/><rect x="11" y="8" width="2" height="2" rx="0.5"/><rect x="15" y="8" width="2" height="2" rx="0.5"/><rect x="7" y="12" width="2" height="2" rx="0.5"/><rect x="11" y="12" width="2" height="2" rx="0.5"/></svg>`,
     description:
-      "Production-ready Docker Compose setup with pgAdmin and pgHero included. From zero to syncing in minutes.",
+      "Production-ready Docker Compose setup with pgAdmin and pgHero. Clone, configure, and start syncing in under 5 minutes — full chain replay takes days depending on hardware.",
   },
   {
     title: "Staged Sync",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
     description:
-      "Intelligent sync modes — massive replay, P2P sync, and live sync — with automatic index management for optimal performance.",
+      "Three sync modes — massive replay, P2P sync, and live sync — with indexes dropped during replay and rebuilt after for faster ingestion.",
   },
 ];
 ---
 
-<section id="features" class="section-padding features-section" aria-labelledby="features-heading">
+<section id="features" class="section-padding features-section section-divider" aria-labelledby="features-heading">
   <div class="container">
     <SectionHeading
       id="features-heading"
       badge="Three Pillars of the Bridge"
-      title="Everything you need to build on Hive"
-      subtitle="HAF handles the hard parts of blockchain development so you can focus on your application logic."
+      title="Blockchain data, SQL access, fork safety"
+      subtitle="HAF syncs blocks to PostgreSQL, manages forks, and isolates app contexts — you write SQL."
       data-scroll-reveal
     />
     <div class="features-grid">
@@ -77,22 +77,6 @@ const features = [
 <style>
   .features-section {
     position: relative;
-  }
-
-  .features-section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.06),
-      transparent
-    );
   }
 
   .features-grid {

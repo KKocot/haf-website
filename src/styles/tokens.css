@@ -27,7 +27,6 @@
   --color-primary-dim: #ce3000;
   --color-primary-muted: #7a3000;
   --color-primary-ghost: rgba(255, 98, 7, 0.08);
-  --color-primary-glow: rgba(255, 98, 7, 0.15);
 
   /* --------------------------------------------------------------------------
      Colors — Accents
@@ -61,16 +60,6 @@
   --color-link: #0099ff;
 
   /* --------------------------------------------------------------------------
-     Colors — Status/Tag (colored tint backgrounds)
-     -------------------------------------------------------------------------- */
-  --color-tag-green-bg: rgba(34, 197, 94, 0.1);
-  --color-tag-green-text: #16a34a;
-  --color-tag-pink-bg: rgba(236, 72, 153, 0.1);
-  --color-tag-pink-text: #db2777;
-  --color-tag-orange-bg: rgba(226, 107, 8, 0.1);
-  --color-tag-orange-text: #e26b08;
-
-  /* --------------------------------------------------------------------------
      Colors — Hero (Dark — "The Bridge" theme)
      -------------------------------------------------------------------------- */
   --color-hero-bg: #0a0a0a;
@@ -98,27 +87,6 @@
   --gradient-hero-bg: radial-gradient(
     ellipse 80% 50% at 50% -20%,
     rgba(255, 98, 7, 0.12),
-    transparent
-  );
-  --gradient-card: linear-gradient(180deg, #262626 0%, #0f0f0f 100%);
-  --gradient-card-glow: radial-gradient(
-    ellipse at center,
-    rgba(255, 98, 7, 0.06),
-    transparent 70%
-  );
-  --gradient-section-fade: linear-gradient(
-    180deg,
-    #171717 0%,
-    #0f0f0f 31%
-  );
-  --gradient-orange-glow: radial-gradient(
-    100% 100% at 50% 100%,
-    rgba(255, 98, 7, 0.15),
-    rgba(255, 98, 7, 0) 100%
-  );
-  --gradient-section-glow: radial-gradient(
-    ellipse 60% 40% at 50% 100%,
-    rgba(255, 98, 7, 0.08),
     transparent
   );
 
@@ -161,7 +129,6 @@
   --leading-tight: 1.1;
   --leading-snug: 1.3;
   --leading-normal: 1.6;
-  --leading-relaxed: 1.75;
 
   /* --------------------------------------------------------------------------
      Typography — Letter Spacing
@@ -174,7 +141,6 @@
   /* --------------------------------------------------------------------------
      Spacing Scale (8px base grid)
      -------------------------------------------------------------------------- */
-  --space-0: 0;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -187,7 +153,6 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
-  --space-32: 8rem;
 
   /* --------------------------------------------------------------------------
      Layout
@@ -201,7 +166,6 @@
   /* --------------------------------------------------------------------------
      Border Radius (accretion: 16px most common, 8px smaller)
      -------------------------------------------------------------------------- */
-  --radius-none: 0;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -245,9 +209,7 @@
      Z-index Scale
      -------------------------------------------------------------------------- */
   --z-base: 0;
-  --z-dropdown: 10;
   --z-sticky: 20;
-  --z-overlay: 30;
   --z-modal: 40;
   --z-toast: 50;
 }
