@@ -1,12 +1,10 @@
 ---
 import SectionHeading from "../ui/SectionHeading.astro";
-import FeatureCard from "../ui/FeatureCard.astro";
 
 const features = [
   {
     title: "Push Model",
     subtitle: "Data flows to you",
-    pillar: true,
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
     description:
       "Data flows directly from hived to PostgreSQL via sql_serializer plugin. No polling, no rate limits, no missed blocks.",
@@ -14,7 +12,6 @@ const features = [
   {
     title: "Automatic Fork Handling",
     subtitle: "The bridge holds during storms",
-    pillar: true,
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`,
     description:
       "HiveForkManager automatically rolls back application data during microforks. Your app stays consistent without any extra code.",
@@ -22,7 +19,6 @@ const features = [
   {
     title: "Multi-App Architecture",
     subtitle: "One bridge, many travelers",
-    pillar: true,
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="9" y="14" width="6" height="6" rx="1"/><path d="M5 8v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/><path d="M12 12v2"/></svg>`,
     description:
       "Run multiple applications on a single HAF server. Each app gets its own context while sharing the same blockchain data.",
@@ -37,13 +33,13 @@ const features = [
     title: "Docker Deployment",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12.5c0-.28-.22-.5-.5-.5h-2.08c-.09-.7-.27-1.37-.54-2h1.12c.28 0 .5-.22.5-.5s-.22-.5-.5-.5H18.6a7 7 0 0 0-1.74-2.26l1.28-1.28a.5.5 0 0 0-.7-.7L16.14 6A7 7 0 0 0 12 4.5 7 7 0 0 0 5 11.5c0 3.87 3.13 7 7 7s7-3.13 7-7h2.5c.28 0 .5-.22.5-.5z"/><rect x="7" y="8" width="2" height="2" rx="0.5"/><rect x="11" y="8" width="2" height="2" rx="0.5"/><rect x="15" y="8" width="2" height="2" rx="0.5"/><rect x="7" y="12" width="2" height="2" rx="0.5"/><rect x="11" y="12" width="2" height="2" rx="0.5"/></svg>`,
     description:
-      "Production-ready Docker Compose setup with pgAdmin and pgHero. Clone, configure, and start syncing in under 5 minutes — full chain replay takes days depending on hardware.",
+      "Production-ready Docker Compose setup with pgAdmin and pgHero. Clone, configure, and start syncing in under 5 minutes.",
   },
   {
     title: "Staged Sync",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
     description:
-      "Three sync modes — massive replay, P2P sync, and live sync — with indexes dropped during replay and rebuilt after for faster ingestion.",
+      "Three sync modes — massive replay, P2P sync, and live sync — with indexes dropped during replay and rebuilt after.",
   },
 ];
 ---
@@ -57,17 +53,27 @@ const features = [
       subtitle="HAF syncs blocks to PostgreSQL, manages forks, and isolates app contexts — you write SQL."
       data-scroll-reveal
     />
+
     <div class="features-grid">
       {
         features.map((feature, index) => (
-          <FeatureCard
-            title={feature.subtitle ? `${feature.title}` : feature.title}
-            icon={feature.icon}
-            description={feature.subtitle ? `${feature.subtitle} — ${feature.description}` : feature.description}
-            class={feature.pillar ? "bridge-pillar" : "features-secondary"}
+          <article
+            class="feature-item"
             data-scroll-reveal
             style={`--i: ${index}`}
-          />
+          >
+            <div class="feature-item__icon" aria-hidden="true">
+              {/* SAFETY: icon is a static SVG string defined above, not user input */}
+              <Fragment set:html={feature.icon} />
+            </div>
+            <div class="feature-item__content">
+              <h3 class="feature-item__title">{feature.title}</h3>
+              {feature.subtitle && (
+                <span class="feature-item__subtitle">{feature.subtitle}</span>
+              )}
+              <p class="feature-item__description">{feature.description}</p>
+            </div>
+          </article>
         ))
       }
     </div>
@@ -79,10 +85,15 @@ const features = [
     position: relative;
   }
 
+  /* ==========================================================================
+     Features Grid — responsive 1 → 2 → 3 columns
+     ========================================================================== */
+
   .features-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-6);
+    column-gap: var(--space-8);
+    row-gap: 0;
   }
 
   @media (min-width: 768px) {
@@ -97,92 +108,128 @@ const features = [
     }
   }
 
-  /* Secondary features — slightly subdued */
-  .features-grid :global(.features-secondary) {
-    opacity: 0.85;
+  /* ==========================================================================
+     Feature Item
+     ========================================================================== */
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
   }
 
-  /* --- Scroll-reveal stagger: 100ms per card --- */
-  .features-grid :global([data-scroll-reveal]) {
-    animation-delay: calc(var(--i, 0) * 100ms);
-  }
-  .features-grid :global(.scroll-reveal-visible) {
-    animation-delay: calc(var(--i, 0) * 100ms);
+  /* --------------------------------------------------------------------------
+     Row dividers — horizontal lines between rows, NOT between columns
+     Mobile (1 col): every item except the last gets a bottom border
+     -------------------------------------------------------------------------- */
+
+  .feature-item {
+    border-bottom: 1px solid rgba(255, 98, 7, 0.1);
   }
 
-  /* --- Pillar glow: pseudo-element ::after for GPU-composited glow --- */
-  .features-grid :global(.bridge-pillar) {
-    position: relative;
-    overflow: hidden;
+  .feature-item:last-child {
+    border-bottom: none;
   }
 
-  .features-grid :global(.bridge-pillar::after) {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: rgba(255, 98, 7, 0.8);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
+  /* Tablet (2 col): last row = items 5-6 → no border */
+  @media (min-width: 768px) {
+    /* Remove border from the last row (last 2 items in 2-col layout with 6 items) */
+    .feature-item:nth-last-child(-n + 2) {
+      border-bottom: none;
+    }
+
+    /* Edge case: if last row has only 1 item, nth-last-child(1) already matches.
+       For 6 items in 2-col, last row is items 5-6 — both get no border. */
   }
 
-  .features-grid :global(.bridge-pillar[data-scroll-reveal]) {
+  /* Desktop (3 col): last row = items 4-6 → no border */
+  @media (min-width: 1024px) {
+    /* Reset tablet rule */
+    .feature-item:nth-last-child(-n + 2) {
+      border-bottom: 1px solid rgba(255, 98, 7, 0.1);
+    }
+
+    /* Remove border from last row (last 3 items in 3-col layout with 6 items) */
+    .feature-item:nth-last-child(-n + 3) {
+      border-bottom: none;
+    }
+  }
+
+  /* --- Icon --- */
+
+  .feature-item__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: var(--color-primary);
+    margin-block-start: var(--space-1);
+  }
+
+  .feature-item__icon :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* --- Content --- */
+
+  .feature-item__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .feature-item__title {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-bright);
+    margin: 0;
+  }
+
+  .feature-item__subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-primary-bright);
+    line-height: var(--leading-snug);
+  }
+
+  .feature-item__description {
+    margin: 0;
+    margin-block-start: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  /* ==========================================================================
+     Scroll-reveal animations — stagger via --i
+     ========================================================================== */
+
+  .feature-item[data-scroll-reveal] {
     animation: scroll-reveal-up 600ms ease both;
-    animation-delay: calc(var(--i, 0) * 100ms);
-    animation-timeline: view();
-    animation-range: entry 0% entry 60%;
-  }
-  .features-grid :global(.bridge-pillar[data-scroll-reveal]::after) {
-    animation: pillar-glow 1s ease both;
-    animation-delay: calc(var(--i, 0) * 100ms);
+    animation-delay: calc(var(--i, 0) * 120ms);
     animation-timeline: view();
     animation-range: entry 0% entry 60%;
   }
 
-  .features-grid :global(.bridge-pillar.scroll-reveal-visible) {
+  .feature-item.scroll-reveal-visible {
     animation: scroll-reveal-up 600ms ease both;
-    animation-delay: calc(var(--i, 0) * 100ms);
-  }
-  .features-grid :global(.bridge-pillar.scroll-reveal-visible::after) {
-    animation: pillar-glow 1s ease both;
-    animation-delay: calc(var(--i, 0) * 100ms);
+    animation-delay: calc(var(--i, 0) * 120ms);
   }
 
-  /* --- Secondary cards: reveal with scale --- */
-  .features-grid :global(.features-secondary[data-scroll-reveal]) {
-    animation:
-      scroll-reveal-scale 600ms ease both;
-    animation-delay: calc(var(--i, 0) * 100ms);
-    animation-timeline: view();
-    animation-range: entry 0% entry 60%;
-  }
-  .features-grid :global(.features-secondary.scroll-reveal-visible) {
-    animation:
-      scroll-reveal-scale 600ms ease both;
-    animation-delay: calc(var(--i, 0) * 100ms);
-  }
+  /* ==========================================================================
+     Reduced motion
+     ========================================================================== */
 
-  /* --- prefers-reduced-motion: disable all local animations --- */
   @media (prefers-reduced-motion: reduce) {
-    .features-grid :global([data-scroll-reveal]),
-    .features-grid :global(.scroll-reveal-visible),
-    .features-grid :global(.bridge-pillar[data-scroll-reveal]),
-    .features-grid :global(.bridge-pillar.scroll-reveal-visible),
-    .features-grid :global(.features-secondary[data-scroll-reveal]),
-    .features-grid :global(.features-secondary.scroll-reveal-visible) {
+    .feature-item[data-scroll-reveal],
+    .feature-item.scroll-reveal-visible {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
-    }
-    .features-grid :global(.features-secondary) {
-      opacity: 0.85 !important;
-    }
-    .features-grid :global(.bridge-pillar::after) {
-      animation: none !important;
-      opacity: 0.4 !important;
     }
   }
 </style>
