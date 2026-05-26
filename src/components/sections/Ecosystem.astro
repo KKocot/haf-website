@@ -51,7 +51,6 @@ const projects = [
         id="ecosystem-heading"
         title="What awaits across the bridge"
         subtitle="These apps run on HAF in production, serving the Hive network daily."
-        align="center"
         data-scroll-reveal
       />
     </div>
@@ -119,7 +118,7 @@ const projects = [
     display: flex;
     flex-direction: column;
     padding: var(--space-8) 0;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid rgba(255, 98, 7, 0.1);
   }
 
   @media (min-width: 768px) {
@@ -135,7 +134,7 @@ const projects = [
 
     /* Vertical separator between columns via border on even items */
     .eco-item:nth-child(even) {
-      border-left: 1px solid var(--color-border);
+      border-left: 1px solid rgba(255, 98, 7, 0.1);
     }
   }
 
@@ -162,7 +161,7 @@ const projects = [
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
     color: var(--color-text-muted);
-    max-width: 38ch;
+    max-width: 50ch;
   }
 
   /* ----------------------------------------------------------------
