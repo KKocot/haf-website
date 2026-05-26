@@ -59,6 +59,7 @@ const projects = [
       {
         projects.map((project, index) => (
           <article class="eco-item" data-scroll-reveal style={`--i: ${index}`}>
+            <span class="eco-item__number">{String(index + 1).padStart(2, "0")}</span>
             <h3 class="eco-item__name">{project.name}</h3>
             <p class="eco-item__desc">{project.description}</p>
             <div class="eco-item__links">
@@ -119,6 +120,11 @@ const projects = [
     flex-direction: column;
     padding: var(--space-8) 0;
     border-top: 1px solid rgba(255, 98, 7, 0.1);
+    transition: border-color 0.3s ease;
+  }
+
+  .eco-item:hover {
+    border-top-color: var(--color-primary);
   }
 
   @media (min-width: 768px) {
@@ -146,6 +152,14 @@ const projects = [
   /* ----------------------------------------------------------------
      Content
      ---------------------------------------------------------------- */
+
+  .eco-item__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    opacity: 0.6;
+    margin-bottom: var(--space-2);
+  }
 
   .eco-item__name {
     margin: 0 0 var(--space-2);
@@ -200,6 +214,10 @@ const projects = [
   @media (prefers-reduced-motion: reduce) {
     .eco-item:global([data-scroll-reveal]) {
       animation-delay: 0ms !important;
+    }
+
+    .eco-item {
+      transition: none !important;
     }
   }
 </style>
