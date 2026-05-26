@@ -59,7 +59,6 @@ const projects = [
       {
         projects.map((project, index) => (
           <article class="eco-item" data-scroll-reveal style={`--i: ${index}`}>
-            <span class="eco-item__number">{String(index + 1).padStart(2, "0")}</span>
             <h3 class="eco-item__name">{project.name}</h3>
             <p class="eco-item__desc">{project.description}</p>
             <div class="eco-item__links">
@@ -153,15 +152,7 @@ const projects = [
      Content
      ---------------------------------------------------------------- */
 
-  .eco-item__number {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    color: var(--color-primary);
-    opacity: 0.6;
-    margin-bottom: var(--space-2);
-  }
-
-  .eco-item__name {
+.eco-item__name {
     margin: 0 0 var(--space-2);
     font-family: var(--font-sans);
     font-size: var(--text-xl);

@@ -8,7 +8,6 @@ import MobileMenu from "../islands/MobileMenu";
     <!-- Logo -->
     <a href="/" class="haf-nav__logo" aria-label="HAF - Hive Application Framework, go to homepage">
       <span class="haf-nav__logo-mark">HAF</span>
-      <span class="haf-nav__logo-sub" aria-hidden="true">Hive Application Framework</span>
     </a>
 
     <!-- Desktop links (absolute centered) -->
@@ -168,20 +167,6 @@ import MobileMenu from "../islands/MobileMenu";
     font-weight: var(--font-weight-bold);
     color: var(--color-primary);
     letter-spacing: var(--tracking-tight);
-  }
-
-  .haf-nav__logo-sub {
-    font-size: var(--text-xs);
-    color: var(--color-text-subtle);
-    font-weight: var(--font-weight-normal);
-    display: none;
-    transition: color 0.3s ease-out;
-  }
-
-  @media (min-width: 768px) {
-    .haf-nav__logo-sub {
-      display: inline;
-    }
   }
 
   /* --- Desktop nav links (absolute centered) --- */
