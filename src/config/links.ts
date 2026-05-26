@@ -16,4 +16,5 @@ export const externalLinks = {
   hive: 'https://hive.io',
   docker: 'https://gitlab.syncad.com/hive/haf_api_node',
   hivemind: 'https://gitlab.syncad.com/hive/hivemind',
+  blockchainWares: 'https://blockchain-wares.vercel.app',
 } as const;

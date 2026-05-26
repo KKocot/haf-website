@@ -1,10 +1,7 @@
 ---
-import Badge from "./Badge.astro";
-
 interface Props {
   title: string;
   subtitle?: string;
-  badge?: string;
   align?: "left" | "center";
   id?: string;
   class?: string;
@@ -13,7 +10,6 @@ interface Props {
 const {
   title,
   subtitle,
-  badge,
   align = "center",
   id,
   class: className,
@@ -29,7 +25,6 @@ const {
   ]}
   {...rest}
 >
-  {badge && <Badge variant="accent">{badge}</Badge>}
   <h2 class="haf-section-heading__title" id={id}>{title}</h2>
   {subtitle && <p class="haf-section-heading__subtitle">{subtitle}</p>}
 </div>

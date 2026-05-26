@@ -1,5 +1,4 @@
 ---
-import Badge from "../ui/Badge.astro";
 import Button from "../ui/Button.astro";
 import TerminalFrame from "../ui/TerminalFrame.astro";
 import CodeBlock from "../ui/CodeBlock.astro";
@@ -52,15 +51,15 @@ LIMIT 5;`;
   <div class="container haf-hero__container">
     <!-- Text content -->
     <div class="haf-hero__content">
-      <Badge variant="hero" class="haf-hero__badge">
-        The Bridge Between Blockchain and SQL
-      </Badge>
-
       <h1 id="hero-heading" class="haf-hero__heading">
         Build Blockchain Apps
         <br />
         with SQL
       </h1>
+
+      <p class="haf-hero__tagline">
+        The Bridge Between Blockchain and SQL
+      </p>
 
       <p class="haf-hero__subtitle">
         HAF transforms Hive blockchain data into a PostgreSQL database. Query
@@ -333,7 +332,7 @@ LIMIT 5;`;
 
   /* --- Staggered entry animation --- */
 
-  .haf-hero__badge,
+  .haf-hero__tagline,
   .haf-hero__heading,
   .haf-hero__subtitle,
   .haf-hero__cta,
@@ -343,7 +342,7 @@ LIMIT 5;`;
     animation: hero-fade-in 600ms ease-out forwards;
   }
 
-  .haf-hero__badge { animation-delay: 0ms; }
+  .haf-hero__tagline { animation-delay: 0ms; }
   .haf-hero__heading { animation-delay: 80ms; }
   .haf-hero__subtitle { animation-delay: 160ms; }
   .haf-hero__cta { animation-delay: 240ms; }
@@ -357,7 +356,7 @@ LIMIT 5;`;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .haf-hero__badge,
+    .haf-hero__tagline,
     .haf-hero__heading,
     .haf-hero__subtitle,
     .haf-hero__cta,
@@ -373,10 +372,22 @@ LIMIT 5;`;
     }
   }
 
-  /* --- Badge --- */
+  /* --- Tagline (subtitle under h1) --- */
 
-  .haf-hero__badge {
-    align-self: flex-start;
+  .haf-hero__tagline {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  @media (min-width: 768px) {
+    .haf-hero__tagline {
+      font-size: var(--text-xl);
+    }
   }
 
   /* --- Heading --- */

@@ -1,8 +1,5 @@
 ---
 import { externalLinks } from "../../config/links";
-import { siteConfig } from "../../config/site";
-
-const currentYear = new Date().getFullYear();
 ---
 
 <footer class="tmux-status" role="contentinfo">
@@ -12,8 +9,8 @@ const currentYear = new Date().getFullYear();
       class="tmux-status__link"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="GitLab repository — opens in new tab"
-    >GitLab</a
+      aria-label="HAF repository on GitLab — opens in new tab"
+    >[haf]</a
     ><span class="tmux-status__sep" aria-hidden="true">│</span><a
       href={externalLinks.docs}
       class="tmux-status__link"
@@ -26,11 +23,15 @@ const currentYear = new Date().getFullYear();
       class="tmux-status__link"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Hive.io — opens in new tab"
-    >Hive.io</a
-    ><span class="tmux-status__sep" aria-hidden="true">│</span><span
-      class="tmux-status__segment"
-    >&copy; {currentYear} {siteConfig.name}</span>
+      aria-label="Hive — opens in new tab"
+    >Hive</a
+    ><span class="tmux-status__sep" aria-hidden="true">│</span><a
+      href={externalLinks.blockchainWares}
+      class="tmux-status__link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Blockchain Wares — opens in new tab"
+    >Blockchain Wares</a>
   </div>
 </footer>
 
