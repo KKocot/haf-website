@@ -17,4 +17,5 @@ export const externalLinks = {
   docker: 'https://gitlab.syncad.com/hive/haf_api_node',
   hivemind: 'https://gitlab.syncad.com/hive/hivemind',
   blockchainWares: 'https://blockchainwares.com.pl',
+  hiveTools: 'https://tools.openhive.network',
 } as const;
