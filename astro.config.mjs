@@ -4,12 +4,12 @@
 // signature; we keep this file out of the strict TS pipeline to avoid noise.
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
+  output: "static",
   site: "https://haf.openhive.network",
   compressHTML: true,
   prefetch: {
@@ -29,5 +29,4 @@ export default defineConfig({
     },
   },
   integrations: [react(), sitemap()],
-  adapter: vercel(),
 });
